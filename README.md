@@ -1,64 +1,95 @@
 
-# salm 프로젝트
+# 🌿 salm 프로젝트
 
-> 살림 정보 공유 + 자연스러운 상품 연결 기반의 지식 커뮤니티 플랫폼
+> **살림 정보 기반 Q&A 커뮤니티 + 상품 참조 플랫폼**
 
----
-
-## 프로젝트 소개
-
-**salm**은 일상 속 살림 노하우를 질문/답변 형태로 공유하고,  
-자연스럽게 상품을 참조/연결할 수 있도록 설계된 커뮤니티 기반 플랫폼입니다.  
-누구나 쉽게 정보를 공유하고, 필요한 물품은 클릭 한 번으로 확인할 수 있습니다.
+**salm**은 살림 노하우를 공유하면서, 자연스럽게 사용한 상품 정보를 함께 전달하는  
+지식 공유형 커뮤니티입니다. 질문과 답변 중심의 게시판에서 상품 링크를 첨부하면,  
+클릭 한 번으로 외부 쇼핑몰/판매처로 이동할 수 있도록 설계되어 있습니다.
 
 ---
 
-## 주요 기능
+## 🔧 실행 방법
 
-- 회원가입 / 로그인 (이메일 인증 + Google OAuth)
-- 질문/답변 게시판 (CRUD)
-- 게시글 내 상품 링크 자동 미리보기 + 외부 이동
-- 반응형 UI (TailwindCSS 기반)
-- 관리자 페이지 (회원/게시판/메뉴 관리)
-- 기능 ON/OFF 관리 시스템 (DB 기반)
+### 1. 환경 준비
+- Java 17+
+- Gradle
+- MariaDB 10.5 이상
+
+### 2. DB 설정 (`application.yml`)
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/salm
+    username: salm_user
+    password: your_password
+```
+
+### 3. 실행
+
+```bash
+# 프로젝트 디렉토리 이동
+cd salm-project
+
+# Gradle wrapper 생성 (필요 시)
+gradle wrapper
+
+# 서버 실행
+./gradlew bootRun
+```
+
+> 기본 포트: `http://localhost:8080`
 
 ---
 
-## 기술 스택
+## ✨ 주요 기능
 
-| 항목 | 기술 |
-|------|------|
-| 백엔드 | Java 17, Spring Boot 3.x, Gradle |
-| 프론트엔드 | Thymeleaf, TailwindCSS, Alpine.js |
-| 인증 | Spring Security, OAuth2, SMTP |
-| DB | MariaDB 10.5.22 |
-| 배포환경 | Rocky Linux 9.x, Nginx, HTTPS, .jar 실행형 |
-
----
-
-## DB 주요 테이블
-
-- `user`: 사용자 정보
-- `question`, `answer`: 게시판 구조
-- `product`, `question_product`: 상품 링크 참조
-- `category`: 게시글 분류
-- `admin_config`: 관리자 기능 설정
-- `email_token`: 이메일 인증 토큰
+| 구분 | 기능 설명 |
+|------|-----------|
+| 회원 기능 | 이메일 인증 + OAuth 로그인 |
+| 게시판 | 질문 작성 / 답변 등록 / 목록 / 상세 보기 |
+| 상품 참조 | 링크 입력 시 자동 미리보기 생성 |
+| 관리자 | 회원관리 / 게시판 추가 / 메뉴 이름 수정 |
+| UI | Tailwind 기반 반응형 디자인 (PC/모바일) |
+| 기능 ON/OFF | 댓글, 북마크, 마이페이지 토글 기능 (admin_config 기반) |
 
 ---
 
-## 향후 확장 기능
+## 📁 주요 디렉토리 구조
+
+```
+salm-project/
+├── src/main/java/kr/salm/
+│   └── SalmApplication.java
+├── src/main/resources/
+│   ├── templates/
+│   ├── static/
+│   └── application.yml
+├── build.gradle
+├── README.md
+```
+
+---
+
+## 💡 향후 기능 예정
 
 - 마이페이지
-- 댓글 시스템
+- 댓글
 - 북마크(스크랩)
-- 태그 검색
+- 태그 기반 검색
 - 관리자 통계 대시보드
-- 다크모드
-- 커머스 전환율 통계
+- 다크모드 UI
 
 ---
 
-## 라이선스
+## 🙌 기여자
 
-본 프로젝트는 MIT 라이선스를 따릅니다.
+- **기획 / 백엔드 / UI 개발**: ChatGPT
+- **서버 인프라 / DB / 운영**: [@wlsejrdyd](https://github.com/wlsejrdyd)
+
+---
+
+## 🛡 라이선스
+
+MIT License
