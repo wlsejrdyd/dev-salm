@@ -13,11 +13,11 @@ jobs:
       - name: Checkout 코드
         uses: actions/checkout@v3
 
-      - name: gradlew 권한 부여
+      - name: gradlew 실행 권한 부여
         run: chmod +x gradlew
         working-directory: app/salm/dev-salm
 
-      - name: Gradle Build 실행
+      - name: Gradle Build
         run: ./gradlew build
         working-directory: app/salm/dev-salm
 
