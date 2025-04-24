@@ -1,0 +1,26 @@
+# .github/workflows/ci.yml
+name: CI for SALM
+
+on:
+  push:
+    branches: [ "main" ]  # main 브랜치에 push 될 때만 실행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 코드
+        uses: actions/checkout@v3
+
+      - name: JDK 설정
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Gradle build
+        run: ./gradlew clean build
+
+      - name: 빌드 결과물 확인
+        run: ls -al build/libs
