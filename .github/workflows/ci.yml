@@ -27,7 +27,7 @@ jobs:
 
     # 4. Gradle 빌드 (bootJar)
     - name: Gradle 빌드
-      run: ./gradlew bootJar
+      run: ./gradlew bootJar -p ./releases/salm-${VERSION}
 
     # 5. 소스코드 + 빌드 결과 zip 압축
     - name: 소스 및 빌드 결과 압축 (src.zip)
