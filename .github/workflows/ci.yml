@@ -10,76 +10,75 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. GitHub에서 코드 체크아웃
-      - name: Checkout 코드
-        uses: actions/checkout@v3
+    - name: Checkout 코드
+      uses: actions/checkout@v3
 
-      # 2. gradlew 실행 권한 부여
-      - name: gradlew 권한 부여
-        run: chmod +x ./gradlew
+    - name: gradlew 실행 권한 부여
+      run: chmod +x ./gradlew
 
-      # 3. 빌드 실행
-      - name: Gradle Build
-        run: ./gradlew build
+    - name: Gradle 빌드 (bootJar)
+      run: ./gradlew bootJar
 
-      # 4. Slack 알림 - 빌드 성공 시
-      - name: Slack 알림 (성공)
-        if: success()
-        run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data "{
-            \"text\": \"✅ SALM 빌드 성공!\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\"
-          }" \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+    - name: 변수 설정 (DATE, VERSION)
+      id: vars
+      run: |
+        echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+        echo "VERSION=v1.1" >> $GITHUB_ENV  # 🔥 여기만 수동 수정
 
-      # 5. Slack 알림 - 빌드 실패 시
-      - name: Slack 알림 (실패)
-        if: failure()
-        run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data "{
-            \"text\": \"❌ SALM 빌드 실패!\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\"
-          }" \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+    - name: Slack 알림 (빌드 성공)
+      if: success()
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data "{
+          \"text\": \"✅ SALM 빌드 성공!\n- 버전: ${DATE}-${VERSION}\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\"
+        }" ${{ secrets.SLACK_WEBHOOK_URL }}
 
-          #      # 6. 서버에 jar 파일 복사
-          #      - name: 테섭 서버에 배포
-          #        if: success()
-          #        uses: appleboy/scp-action@v0.1.7
-          #        with:
-          #          host: ${{ secrets.SERVER_HOST }}
-          #          username: ${{ secrets.SERVER_USER }}
-          #          key: ${{ secrets.SERVER_KEY }}
-          #          source: "build/libs/*.jar"
-          #          target: "/home/salm/app"
-          #
-          #      # 7. 테섭 서비스 재시작
-          #      - name: 서비스 재시작
-          #        if: success()
-          #        uses: appleboy/ssh-action@master
-          #        with:
-          #          host: ${{ secrets.SERVER_HOST }}
-          #          username: ${{ secrets.SERVER_USER }}
-          #          key: ${{ secrets.SERVER_KEY }}
-          #          script: |
-          #            sudo systemctl restart salm.service
+    - name: Slack 알림 (빌드 실패)
+      if: failure()
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data "{
+          \"text\": \"❌ SALM 빌드 실패!\n- 버전: ${DATE}-${VERSION}\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\"
+        }" ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      # 8. Git 태그 자동 추가
-      - name: 버전 태깅
-        if: success()
-        run: |
-          VERSION=$(date +%Y%m%d%H%M)
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git tag v$VERSION
-          git push origin v$VERSION
+    - name: 서버에 .jar 파일 복사
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.SALM_SERVER_HOST }}
+        username: ${{ secrets.SALM_SERVER_USER }}
+        key: ${{ secrets.SALM_SERVER_KEY }}
+        source: "build/libs/*.jar"
+        target: "/app/salm/dev-salm/releases/salm-${{ env.DATE }}-${{ env.VERSION }}"
 
-      # 9. jar 백업 압축
-      - name: 백업 파일 압축
-        if: success()
-        run: |
-          VERSION=$(date +%Y%m%d%H%M)
-          mkdir -p backup
-          cp build/libs/*.jar backup/salm-$VERSION.jar
-          zip backup/salm-$VERSION.zip backup/salm-$VERSION.jar
+    - name: 서버에서 배포 및 백업
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SALM_SERVER_HOST }}
+        username: ${{ secrets.SALM_SERVER_USER }}
+        key: ${{ secrets.SALM_SERVER_KEY }}
+        script: |
+          # 심볼릭 링크 변경
+          ln -sfn /app/salm/dev-salm/releases/salm-${{ env.DATE }}-${{ env.VERSION }} /app/salm/dev-salm/current
+
+          # 백업 디렉토리 생성
+          mkdir -p /app/salm/dev-salm/backup
+
+          # .jar 파일 백업
+          cp /app/salm/dev-salm/current/*.jar /app/salm/dev-salm/backup/salm-${{ env.DATE }}-${{ env.VERSION }}.jar
+
+          # 기존 프로세스 종료
+          pkill -f 'java.*salm' || true
+
+          # 새 프로세스 실행
+          nohup java -jar /app/salm/dev-salm/current/*.jar > /app/salm/dev-salm/logs/salm.log 2>&1 &
+
+          echo "✅ SALM ${DATE}-${VERSION} 버전 서비스 재시작 완료"
+
+    - name: GitHub 태그 추가
+      if: success()
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git tag "${{ env.DATE }}-${{ env.VERSION }}"
+        git push origin "${{ env.DATE }}-${{ env.VERSION }}"
 
