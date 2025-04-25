@@ -8,6 +8,10 @@ group = 'kr.salm'
 version = '1.0.0'
 sourceCompatibility = '17'
 
+bootJar {
+    mainClass.set('kr.salm.SalmApplication')
+}
+
 repositories {
     mavenCentral()
 }

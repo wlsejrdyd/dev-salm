@@ -1,4 +1,4 @@
-name: SALM Full CI/CD
+name: SALM Full Auto Deployment
 
 on:
   push:
@@ -10,70 +10,89 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # 1. 코드 체크아웃
     - name: Checkout 코드
       uses: actions/checkout@v3
 
+    # 2. gradlew 실행 권한 부여
     - name: gradlew 실행 권한 부여
       run: chmod +x ./gradlew
 
-    - name: Gradle 빌드 (bootJar)
-      run: ./gradlew bootJar
-
+    # 3. 버전 변수 설정
     - name: 변수 설정 (DATE, VERSION)
       id: vars
       run: |
         echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
-        echo "VERSION=v1.1" >> $GITHUB_ENV  # 🔥 여기만 수동 수정
+        echo "VERSION=v1.1" >> $GITHUB_ENV  # 🔥 여기 수동 수정 (버전명)
 
-    - name: Slack 알림 (빌드 성공)
-      if: success()
+    # 4. Gradle 빌드 (bootJar)
+    - name: Gradle 빌드
+      run: ./gradlew bootJar
+
+    # 5. 소스코드 + 빌드 결과 zip 압축
+    - name: 소스 및 빌드 결과 압축 (src.zip)
       run: |
-        curl -X POST -H 'Content-type: application/json' \
-        --data "{
-          \"text\": \"✅ SALM 빌드 성공!\n- 버전: ${DATE}-${VERSION}\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\"
-        }" ${{ secrets.SLACK_WEBHOOK_URL }}
+        mkdir -p package
+        zip -r package/salm-${{ env.DATE }}-${{ env.VERSION }}.zip src/ build.gradle settings.gradle gradlew gradlew.bat build/libs/*.jar
 
-    - name: Slack 알림 (빌드 실패)
-      if: failure()
-      run: |
-        curl -X POST -H 'Content-type: application/json' \
-        --data "{
-          \"text\": \"❌ SALM 빌드 실패!\n- 버전: ${DATE}-${VERSION}\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\"
-        }" ${{ secrets.SLACK_WEBHOOK_URL }}
-
-    - name: 서버에 .jar 파일 복사
+    # 6. 서버 backup 디렉토리에 zip 전송
+    - name: 서버 backup 디렉토리에 zip 파일 전송
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.SALM_SERVER_HOST }}
         username: ${{ secrets.SALM_SERVER_USER }}
         key: ${{ secrets.SALM_SERVER_KEY }}
-        source: "build/libs/*.jar"
-        target: "/app/salm/dev-salm/releases/salm-${{ env.DATE }}-${{ env.VERSION }}"
+        source: "package/*.zip"
+        target: "/app/salm/dev-salm/backup/"
 
-    - name: 서버에서 배포 및 백업
+    # 7. 서버에서 zip 압축 해제 및 자동 배포
+    - name: 서버에서 압축 해제 및 배포
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SALM_SERVER_HOST }}
         username: ${{ secrets.SALM_SERVER_USER }}
         key: ${{ secrets.SALM_SERVER_KEY }}
         script: |
-          # 심볼릭 링크 변경
-          ln -sfn /app/salm/dev-salm/releases/salm-${{ env.DATE }}-${{ env.VERSION }} /app/salm/dev-salm/current
+          cd /app/salm/dev-salm/backup
 
-          # 백업 디렉토리 생성
-          mkdir -p /app/salm/dev-salm/backup
+          # 가장 최근 업로드된 zip 파일 찾기
+          ZIP_FILE=$(ls -t salm-*.zip | head -n1)
+          VERSION_DIR="${ZIP_FILE%.zip}"
 
-          # .jar 파일 백업
-          cp /app/salm/dev-salm/current/*.jar /app/salm/dev-salm/backup/salm-${{ env.DATE }}-${{ env.VERSION }}.jar
+          # releases 디렉토리에 압축 해제
+          mkdir -p /app/salm/dev-salm/releases/$VERSION_DIR
+          unzip -o $ZIP_FILE -d /app/salm/dev-salm/releases/$VERSION_DIR
+
+          # current 심볼릭 링크 교체
+          ln -sfn /app/salm/dev-salm/releases/$VERSION_DIR /app/salm/dev-salm/current
 
           # 기존 프로세스 종료
           pkill -f 'java.*salm' || true
 
           # 새 프로세스 실행
-          nohup java -jar /app/salm/dev-salm/current/*.jar > /app/salm/dev-salm/logs/salm.log 2>&1 &
+          nohup java -jar /app/salm/dev-salm/current/build/libs/*.jar > /app/salm/dev-salm/logs/salm.log 2>&1 &
 
-          echo "✅ SALM ${DATE}-${VERSION} 버전 서비스 재시작 완료"
+          echo "✅ SALM ${VERSION_DIR} 버전 서비스 재시작 완료"
 
+    # 8. Slack 알림 (빌드 성공)
+    - name: Slack 알림 (빌드 성공)
+      if: success()
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data "{
+          \"text\": \"✅ SALM 빌드 및 배포 성공!\n- 버전: ${{ env.DATE }}-${{ env.VERSION }}\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\" 
+        }" ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    # 9. Slack 알림 (빌드 실패)
+    - name: Slack 알림 (빌드 실패)
+      if: failure()
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data "{
+          \"text\": \"❌ SALM 빌드 실패!\n- 버전: ${{ env.DATE }}-${{ env.VERSION }}\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\" 
+        }" ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    # 10. GitHub 태그 추가
     - name: GitHub 태그 추가
       if: success()
       run: |
