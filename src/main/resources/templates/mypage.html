@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지 - SALM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen items-center">
+
+    <!-- 상단바 -->
+    <header class="w-full flex justify-between items-center p-4 bg-white shadow-md">
+        <div class="text-2xl font-bold text-indigo-600">SALM</div>
+        <div class="flex space-x-4">
+            <a href="/dashboard" class="text-gray-600 hover:text-indigo-600">검색</a>
+            <a href="/mypage" class="text-gray-600 hover:text-indigo-600">마이페이지</a>
+            <a href="/logout" class="text-gray-600 hover:text-indigo-600">로그아웃</a>
+        </div>
+    </header>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="flex-grow w-full max-w-2xl p-6">
+        <h1 class="text-3xl font-bold text-center mb-8">마이페이지</h1>
+
+        <div class="p-6 bg-white rounded-xl shadow-md space-y-4">
+            <p class="text-gray-700"><strong>이름:</strong> 사용자 이름</p>
+            <p class="text-gray-700"><strong>아이디:</strong> 사용자 아이디</p>
+            <p class="text-gray-700"><strong>이메일:</strong> 사용자 이메일</p>
+            <p class="text-gray-700"><strong>휴대폰:</strong> 사용자 휴대폰번호</p>
+        </div>
+    </main>
+
+    <!-- 하단 네비게이션 -->
+    <footer class="w-full bg-white p-4 shadow-inner flex justify-around">
+        <a href="/" class="text-gray-600 hover:text-indigo-600">홈</a>
+        <a href="/dashboard" class="text-gray-600 hover:text-indigo-600">Q&A</a>
+        <a href="/product" class="text-gray-600 hover:text-indigo-600">스파링</a>
+        <a href="/mypage" class="text-gray-600 hover:text-indigo-600">멤버십</a>
+        <a href="/more" class="text-gray-600 hover:text-indigo-600">더보기</a>
+    </footer>
+
+</body>
+</html>
+
