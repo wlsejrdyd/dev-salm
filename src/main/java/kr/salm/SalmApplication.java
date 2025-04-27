@@ -9,3 +9,4 @@ public class SalmApplication {
         SpringApplication.run(SalmApplication.class, args);
     }
 }
+
