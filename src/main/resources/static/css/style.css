@@ -17,15 +17,6 @@ form {
     margin: 0 auto;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: #fffefc;
-  border-bottom: 1px solid #eee;
-}
-
 .footer {
   margin-top: 3rem;
   padding: 1.5rem;
@@ -51,8 +42,37 @@ form {
   color: #a34c1d;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #fffefc;
+  border-bottom: 1px solid #eee;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .logo-img {
-  height: 85px;
+  height: 36px;
   max-height: 48px;
   vertical-align: middle;
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }

@@ -33,7 +33,7 @@ public class AuthController {
             return "signup";
         }
 
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             model.addAttribute("signupError", "이미 존재하는 아이디입니다.");
             return "signup";
         }
@@ -41,7 +41,6 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-        // 이메일 인증 코드 발송
         emailService.sendVerificationEmail(user.getEmail());
 
         return "signup_success";
@@ -52,4 +51,3 @@ public class AuthController {
         return "login";
     }
 }
-
