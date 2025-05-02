@@ -46,4 +46,5 @@ public class Post {
     public String getAuthor() { return author; }
     public void setAuthor(String author) { this.author = author; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }  // ✅ 추가
 }

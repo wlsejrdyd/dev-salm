@@ -1,33 +1,32 @@
 package kr.salm.controller;
 
+import kr.salm.entity.User;
 import kr.salm.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@RestController
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
 
     private final UserRepository userRepository;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @GetMapping("/mypage")
+    public String mypageForm(Model model) {
+        // 현재 로그인한 사용자 정보 불러오기 등 추가 가능
+        return "mypage";
     }
 
-    @GetMapping("/check-username")
-    public Map<String, Boolean> checkUsername(@RequestParam("value") String username) {
-        boolean exists = userRepository.existsByUsername(username);
-        Map<String, Boolean> result = new HashMap<>();
-        result.put("duplicate", exists);
-        return result;
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute User user, Model model) {
+        // 사용자 정보 수정 로직
+        userRepository.save(user);
+        model.addAttribute("updateSuccess", true);
+        return "mypage";
     }
 
-    @GetMapping("/check-email")
-    public Map<String, Boolean> checkEmail(@RequestParam("value") String email) {
-        boolean exists = userRepository.existsByEmail(email);
-        Map<String, Boolean> result = new HashMap<>();
-        result.put("duplicate", exists);
-        return result;
-    }
+    // ❌ 중복 원인 제거: /login 매핑 메서드는 AuthController에만 남김
 }

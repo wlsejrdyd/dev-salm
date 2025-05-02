@@ -2,53 +2,38 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>살림(SALM) - 메인</title>
+  <title>SALM | 살림 정보 공유 플랫폼</title>
   <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <script src="/js/index.js" defer></script>
 </head>
 <body>
 
   <div th:replace="~{fragments/header :: common-header}"></div>
 
-  <main class="main">
-    <h1>살림 정보 공유 플랫폼</h1>
-    <p style="text-align: center;">삶에 대한 노하우를 자유롭게 공유하세요!</p>
-
-    <section class="section">
-      <h2>최신 게시글</h2>
-      <ul class="list">
-        <li class="item">
-          <span class="bullet">•</span>
-          <span class="title">미니멀리즘 청소법</span>
-          <span class="info">2025.05.02 | 정리정돈</span>
-        </li>
-        <li class="item">
-          <span class="bullet">•</span>
-          <span class="title">생활 속 전기 절약 꿀팁</span>
-          <span class="info">2025.04.30 | 절약</span>
-        </li>
-        <li class="item">
-          <span class="bullet">•</span>
-          <span class="title">반려식물 키우기 입문</span>
-          <span class="info">2025.04.28 | 자연생활</span>
-        </li>
-      </ul>
+  <main class="dashboard-container">
+    <!-- 추천 아이템 영역 -->
+    <section class="dashboard-top">
+      <h2>살림을 더 살리는 추천 아이템</h2>
+      <p>유용하고 검증된 살림 아이템을 소개합니다.</p>
     </section>
 
-    <section class="section">
-      <h2>추천 상품</h2>
-      <ul class="list">
-        <li class="item">
-          <span class="bullet">•</span>
-          <span class="title">자작나무 원목 수납장</span>
-          <span class="info">₩85,000 | 국내제작</span>
-        </li>
-        <li class="item">
-          <span class="bullet">•</span>
-          <span class="title">친환경 빨래비누 5개입</span>
-          <span class="info">₩12,000 | 무향/저자극</span>
-        </li>
-      </ul>
+    <section class="dashboard-scroll-box">
+      <div class="dashboard-post-list" id="recommend-list">
+        <!-- 무한스크롤 데이터 -->
+      </div>
+    </section>
+
+    <!-- 일반 게시글 영역 -->
+    <section class="dashboard-top" style="margin-top: 3rem;">
+      <h2>살림에 대한 다양한 이야기</h2>
+      <p>살림 고수들의 팁과 노하우를 나누는 공간입니다.</p>
+    </section>
+
+    <section class="dashboard-scroll-box">
+      <div class="dashboard-post-list" id="post-list">
+        <!-- 무한스크롤 데이터 -->
+      </div>
     </section>
   </main>
 

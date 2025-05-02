@@ -1,13 +1,51 @@
 <div th:fragment="common-header">
-  <header class="header">
-    <a href="/" class="logo">
-      <img src="/img/salm-logo.png" alt="SALM 로고 (홈으로 이동)" class="logo-img">
-    </a>
-    <nav class="nav">
-      <a href="/">홈</a>
-      <a href="/write">글쓰기</a>
-      <a href="/login">로그인</a>
-      <a href="/mypage">마이페이지</a>
-    </nav>
+  <header style="background-color: #fff; border-bottom: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px; display: flex; justify-content: space-between; align-items: center; height: 90px;">
+      <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+        <img src="/img/salm-logo.png" alt="SALM 로고" style="height: 72px;">
+        <span style="font-size: 1.5rem; font-weight: bold; color: #333;">SALM</span>
+      </a>
+      <nav>
+        <ul style="list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; align-items: center;">
+          <li><a href="/write" style="text-decoration: none; color: #444; font-size: 1rem;">글쓰기</a></li>
+
+          <!-- 로그인 상태 -->
+          <li th:if="${#authorization.expression('isAuthenticated()')}">
+            <div class="dropdown" onclick="toggleDropdown(event)">
+              <img src="/img/default-profile.png" alt="프로필" class="profile-icon">
+              <div class="dropdown-content">
+                <a href="/mypage">마이페이지</a>
+                <form th:action="@{/logout}" method="post">
+                  <button type="submit" class="logout-btn">로그아웃</button>
+                </form>
+              </div>
+            </div>
+          </li>
+
+          <!-- 비로그인 상태 -->
+          <li th:if="${#authorization.expression('!isAuthenticated()')}">
+            <a href="/login" style="text-decoration: none; color: #444; font-size: 1rem;">로그인</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </header>
+
+  <script>
+    function toggleDropdown(event) {
+      event.stopPropagation();
+      const dropdown = event.currentTarget.querySelector('.dropdown-content');
+      const allDropdowns = document.querySelectorAll('.dropdown-content');
+      allDropdowns.forEach(d => {
+        if (d !== dropdown) d.style.display = 'none';
+      });
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // 클릭 외부 감지해서 닫기
+    document.addEventListener('click', function (event) {
+      const dropdowns = document.querySelectorAll('.dropdown-content');
+      dropdowns.forEach(d => d.style.display = 'none');
+    });
+  </script>
 </div>

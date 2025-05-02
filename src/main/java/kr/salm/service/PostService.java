@@ -6,6 +6,9 @@ import kr.salm.repository.PostRepository;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.*;
+import java.util.*;
+
 @Service
 public class PostService {
 
@@ -34,5 +37,29 @@ public class PostService {
     @Transactional
     public void deletePostById(Long id) {
         postRepository.deleteById(id);
+    }
+
+    // ✅ 본문에서 URL 자동 추출
+    public List<String> extractUrls(String content) {
+        List<String> urls = new ArrayList<>();
+        Pattern urlPattern = Pattern.compile(
+            "(https?:\\/\\/[^\\s]+)",
+            Pattern.CASE_INSENSITIVE);
+        Matcher matcher = urlPattern.matcher(content);
+        while (matcher.find()) {
+            urls.add(matcher.group());
+        }
+        return urls;
+    }
+
+    // ✅ 최신 게시글 N개 조회
+    public List<Post> findLatestPosts(int count) {
+        Pageable pageable = PageRequest.of(0, count, Sort.by("createdAt").descending());
+        return postRepository.findAll(pageable).getContent();
+    }
+
+    // ✅ 추천 게시물 N개 (임시로 최신글 재사용)
+    public List<Post> findRecommendedPosts(int count) {
+        return findLatestPosts(count);
     }
 }

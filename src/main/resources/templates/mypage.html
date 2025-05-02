@@ -5,18 +5,19 @@
   <title>마이페이지 | SALM</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/mypage.css">
+  <script src="/js/mypage.js" defer></script>
 </head>
 <body>
 
   <div th:replace="~{fragments/header :: common-header}"></div>
 
   <main class="main">
-    <h1>마이페이지</h1>
+    <h1 style="text-align: center;">마이페이지</h1>
     <section class="mypage-section">
       <div class="user-box">
-        <p><strong>이름:</strong> 홍길동</p>
-        <p><strong>아이디:</strong> gil@example.com</p>
-        <p><strong>가입일:</strong> 2024-12-01</p>
+        <p><strong>이름:</strong> <span th:text="${user.name}">홍길동</span></p>
+        <p><strong>아이디:</strong> <span th:text="${user.username}">gil@example.com</span></p>
+        <p><strong>가입일:</strong> <span th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd')}">2024-12-01</span></p>
       </div>
 
       <button class="edit-btn">회원정보 수정</button>

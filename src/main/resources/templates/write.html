@@ -5,23 +5,14 @@
   <title>글쓰기 | SALM</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/write.css">
+  <script src="/js/write.js" defer></script>
 </head>
 <body>
 
   <div th:replace="~{fragments/header :: common-header}"></div>
 
-  <header>
-    <a href="/" class="logo-text">salm</a>
-    <nav>
-      <a href="/">홈</a>
-      <a href="/write">글쓰기</a>
-      <a href="/login">로그인</a>
-      <a href="/mypage">마이페이지</a>
-    </nav>
-  </header>
-
   <main class="main">
-    <h1>글쓰기</h1>
+    <h1 style="text-align: center;">글쓰기</h1>
     <form method="post" action="/submit" class="write-form">
       <label for="title">제목</label>
       <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required />

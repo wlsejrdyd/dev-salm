@@ -1,0 +1,67 @@
+/* index.css - SALM 메인 페이지 전용 */
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.dashboard-top {
+  text-align: center;
+}
+
+.dashboard-top h2 {
+  font-size: 1.6rem;
+  color: #3d2b1f;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-top p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.dashboard-scroll-box {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.dashboard-post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.post-card {
+  background-color: #fffaf0;
+  border: 1px solid #e0d8c0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-3px);
+}
+
+.post-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #3d2b1f;
+}
+
+.post-card p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.post-card .meta {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.3rem;
+}

@@ -15,12 +15,14 @@ public class WebSecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/js/**", "/img/**", "/", "/login", "/signup", "/signup_success", "/api/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/img/**",
+                                 "/", "/login", "/signup", "/signup_success",
+                                 "/api/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login
                 .loginPage("/login")
-                .defaultSuccessUrl("/dashboard", true)
+                .defaultSuccessUrl("/", true)
                 .permitAll()
             )
             .logout(logout -> logout
