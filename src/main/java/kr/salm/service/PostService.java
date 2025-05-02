@@ -3,9 +3,8 @@ package kr.salm.service;
 import jakarta.transaction.Transactional;
 import kr.salm.entity.Post;
 import kr.salm.repository.PostRepository;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PostService {
@@ -22,8 +21,9 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public List<Post> findAllPosts() {
-        return postRepository.findAll();
+    public Page<Post> findPostsByPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        return postRepository.findAll(pageable);
     }
 
     public Post findPostById(Long id) {

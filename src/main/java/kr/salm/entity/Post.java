@@ -21,7 +21,7 @@ public class Post {
     private String author;
 
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     public Post() {}
 
@@ -29,6 +29,13 @@ public class Post {
         this.title = title;
         this.content = content;
         this.author = author;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
     }
 
     public Long getId() { return id; }
