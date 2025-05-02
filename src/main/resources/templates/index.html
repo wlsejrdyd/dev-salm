@@ -11,28 +11,20 @@
 
   <div th:replace="~{fragments/header :: common-header}"></div>
 
-  <main class="dashboard-container">
-    <!-- 추천 아이템 영역 -->
-    <section class="dashboard-top">
-      <h2>살림을 더 살리는 추천 아이템</h2>
-      <p>유용하고 검증된 살림 아이템을 소개합니다.</p>
-    </section>
-
-    <section class="dashboard-scroll-box">
-      <div class="dashboard-post-list" id="recommend-list">
-        <!-- 무한스크롤 데이터 -->
+  <main class="index-container">
+    <!-- 추천 슬라이드 -->
+    <section class="recommend-slider-section">
+      <h2>추천 살림 아이템</h2>
+      <div class="recommend-slider" id="recommend-slider">
+        <!-- JS로 슬라이드 항목 삽입 -->
       </div>
     </section>
 
-    <!-- 일반 게시글 영역 -->
-    <section class="dashboard-top" style="margin-top: 3rem;">
+    <!-- 일반 게시글 무한 스크롤 -->
+    <section class="post-section">
       <h2>살림에 대한 다양한 이야기</h2>
-      <p>살림 고수들의 팁과 노하우를 나누는 공간입니다.</p>
-    </section>
-
-    <section class="dashboard-scroll-box">
-      <div class="dashboard-post-list" id="post-list">
-        <!-- 무한스크롤 데이터 -->
+      <div class="post-list" id="post-list">
+        <!-- JS로 게시글 삽입 -->
       </div>
     </section>
   </main>
