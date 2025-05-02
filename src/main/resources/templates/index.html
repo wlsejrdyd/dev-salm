@@ -1,63 +1,57 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>SALM - 삶의 모든 것</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <title>살림(SALM) - 메인</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen items-center">
+<body>
 
-    <!-- 상단바 -->
-    <header class="w-full flex justify-between items-center p-4 bg-white shadow-md">
-        <div class="text-2xl font-bold text-indigo-600">SALM</div>
-        <div class="flex space-x-4">
-            <a href="/dashboard" class="text-gray-600 hover:text-indigo-600">검색</a>
-            <a href="/mypage" class="text-gray-600 hover:text-indigo-600">마이페이지</a>
-            <a href="/login" class="text-gray-600 hover:text-indigo-600">로그인</a>
-        </div>
-    </header>
+  <div th:replace="~{fragments/header :: common-header}"></div>
 
-    <!-- 메인 콘텐츠 -->
-    <main class="flex-grow w-full max-w-4xl p-6">
-        <h1 class="text-3xl font-bold text-center mb-8">오늘의 삶 꿀팁 ✨</h1>
+  <main class="main">
+    <h1>살림 정보 공유 플랫폼</h1>
+    <p style="text-align: center;">삶에 대한 노하우를 자유롭게 공유하세요!</p>
 
-        <!-- 삶 카드 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            <div class="p-6 bg-white rounded-xl shadow-md">
-                <h2 class="text-xl font-semibold mb-2">주방 정리 마스터하는 법</h2>
-                <p class="text-gray-600">깔끔한 주방 만들기 팁을 소개합니다!</p>
-            </div>
-            <div class="p-6 bg-white rounded-xl shadow-md">
-                <h2 class="text-xl font-semibold mb-2">옷장 공간 2배 늘리기</h2>
-                <p class="text-gray-600">옷장을 정리하는 최고의 방법!</p>
-            </div>
-        </div>
+    <section class="section">
+      <h2>최신 게시글</h2>
+      <ul class="list">
+        <li class="item">
+          <span class="bullet">•</span>
+          <span class="title">미니멀리즘 청소법</span>
+          <span class="info">2025.05.02 | 정리정돈</span>
+        </li>
+        <li class="item">
+          <span class="bullet">•</span>
+          <span class="title">생활 속 전기 절약 꿀팁</span>
+          <span class="info">2025.04.30 | 절약</span>
+        </li>
+        <li class="item">
+          <span class="bullet">•</span>
+          <span class="title">반려식물 키우기 입문</span>
+          <span class="info">2025.04.28 | 자연생활</span>
+        </li>
+      </ul>
+    </section>
 
-        <h2 class="text-2xl font-bold text-center mb-6">강조 상품 🛒</h2>
+    <section class="section">
+      <h2>추천 상품</h2>
+      <ul class="list">
+        <li class="item">
+          <span class="bullet">•</span>
+          <span class="title">자작나무 원목 수납장</span>
+          <span class="info">₩85,000 | 국내제작</span>
+        </li>
+        <li class="item">
+          <span class="bullet">•</span>
+          <span class="title">친환경 빨래비누 5개입</span>
+          <span class="info">₩12,000 | 무향/저자극</span>
+        </li>
+      </ul>
+    </section>
+  </main>
 
-        <!-- 강조 상품 카드 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="p-6 bg-indigo-100 rounded-xl shadow-md">
-                <h3 class="text-lg font-semibold mb-1">프리미엄 손잡이 수납함</h3>
-                <p class="text-gray-700 mb-2">₩19,800</p>
-                <p class="text-gray-600">공간을 2배로 활용하는 수납의 정석!</p>
-            </div>
-            <div class="p-6 bg-indigo-100 rounded-xl shadow-md">
-                <h3 class="text-lg font-semibold mb-1">고급형 무선 청소기</h3>
-                <p class="text-gray-700 mb-2">₩159,000</p>
-                <p class="text-gray-600">살림 고수들이 선택한 무선 청소기!</p>
-            </div>
-        </div>
-    </main>
-
-    <!-- 하단 네비게이션 -->
-    <footer class="w-full bg-white p-4 shadow-inner flex justify-around">
-        <a href="/" class="text-gray-600 hover:text-indigo-600">홈</a>
-        <a href="/dashboard" class="text-gray-600 hover:text-indigo-600">Q&A</a>
-        <a href="/product" class="text-gray-600 hover:text-indigo-600">스파링</a>
-        <a href="/mypage" class="text-gray-600 hover:text-indigo-600">멤버십</a>
-        <a href="/more" class="text-gray-600 hover:text-indigo-600">더보기</a>
-    </footer>
-
+  <div th:replace="~{fragments/footer :: common-footer}"></div>
 </body>
 </html>

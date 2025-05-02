@@ -1,0 +1,58 @@
+/* /src/main/resources/static/css/style.css */
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    color: #333333;
+    text-align: center;
+}
+
+form {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #fffefc;
+  border-bottom: 1px solid #eee;
+}
+
+.footer {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #777;
+  background-color: #fffefc;
+  border-top: 1px solid #eee;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav a:hover {
+  color: #a34c1d;
+}
+
+.logo-img {
+  height: 85px;
+  max-height: 48px;
+  vertical-align: middle;
+}

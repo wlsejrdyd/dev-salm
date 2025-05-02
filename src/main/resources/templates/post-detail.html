@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 상세 | SALM</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/post.css">
+</head>
+<body>
+
+  <div th:replace="~{fragments/header :: common-header}"></div>
+
+  <main class="main">
+    <article class="post">
+      <h1 class="post-title">미니멀리즘 청소법</h1>
+      <div class="post-meta">작성자: 홍길동 | 작성일: 2025-05-01 | 카테고리: 정리정돈</div>
+      <div class="post-content">
+        <p>
+          공간을 비우는 것만으로도 삶이 정돈됩니다. 오늘은 옷장을 정리하는 방법에 대해 이야기해볼게요...
+        </p>
+      </div>
+    </article>
+
+    <section class="comments">
+      <h2>댓글</h2>
+      <ul class="comment-list">
+        <li>좋은 정보 감사합니다! - user01</li>
+        <li>공감해요~ 요즘 정리에 관심 많았는데 딱이네요. - user02</li>
+      </ul>
+
+      <form method="post" action="/post/1/comment" class="comment-form">
+        <textarea name="comment" rows="3" placeholder="댓글을 입력하세요"></textarea>
+        <button type="submit">댓글 작성</button>
+      </form>
+    </section>
+  </main>
+
+  <div th:replace="~{fragments/footer :: common-footer}"></div>
+</body>
+</html>

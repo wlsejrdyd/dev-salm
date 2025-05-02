@@ -19,11 +19,22 @@ jobs:
       run: chmod +x ./gradlew
 
     # 버전 변수 설정
+    - name: Get Version from version file
+      run: |
+        VERSION=$(cat version)
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    # 변수 출력 확인
+    - name: Use Version
+      run: echo "Version is $VERSION"
+      env:
+        VERSION: ${{ env.VERSION }}
+
+    # 날짜 + 버전 변수 설정
     - name: 변수 설정 (DATE, VERSION)
-      id: vars
       run: |
         echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
-        echo "VERSION=v2.0" >> $GITHUB_ENV  # 🔥 여기 수동 수정 (버전명)
+        echo "VERSION=${{ env.VERSION }}" >> $GITHUB_ENV  # 버전 재확인 (선택)
 
     # Slack 알림 (빌드 성공)
     - name: Slack 알림 (빌드 성공)
@@ -31,7 +42,7 @@ jobs:
       run: |
         curl -X POST -H 'Content-type: application/json' \
         --data "{
-          \"text\": \"✅ SALM 빌드 및 배포 성공!\n- 버전: ${{ env.DATE }}-${{ env.VERSION }}\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\" 
+          \"text\": \"✅ SALM 빌드 및 배포 성공!\n- 버전: ${{ env.DATE }}-${{ env.VERSION }}\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\"
         }" ${{ secrets.SLACK_WEBHOOK_URL }}
 
     # Slack 알림 (빌드 실패)
@@ -40,7 +51,7 @@ jobs:
       run: |
         curl -X POST -H 'Content-type: application/json' \
         --data "{
-          \"text\": \"❌ SALM 빌드 실패!\n- 버전: ${{ env.DATE }}-${{ env.VERSION }}\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\" 
+          \"text\": \"❌ SALM 빌드 실패!\n- 버전: ${{ env.DATE }}-${{ env.VERSION }}\n- 브랜치: ${{ github.ref_name }}\n- 커밋: ${{ github.event.head_commit.message }}\n- 작성자: ${{ github.event.head_commit.author.name }}\"
         }" ${{ secrets.SLACK_WEBHOOK_URL }}
 
     # GitHub 태그 추가

@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background-color: #fefaf5;
+  color: #333;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff7ef;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.logo-icon {
+  margin-right: 0.5rem;
+  font-size: 1.6rem;
+}
+
+.logo-img {
+  height: 85px;
+  max-height: 48px;
+  vertical-align: middle;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-item:hover {
+  color: #a34c1d;
+}
+
+.icons {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.main {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.section h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #444;
+  border-bottom: 2px solid #e0cbb0;
+  padding-bottom: 0.3rem;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.bullet {
+  margin-right: 0.75rem;
+  color: #a34c1d;
+  font-size: 1.2rem;
+}
+
+.title {
+  flex-grow: 1;
+  font-weight: 500;
+}
+
+.info {
+  color: #888;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}

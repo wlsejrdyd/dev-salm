@@ -1,0 +1,47 @@
+.write-form {
+  width: 90%;
+  max-width: 600px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.write-form label {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  color: #444;
+}
+
+.write-form input[type="text"],
+.write-form textarea {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+.write-form input[type="text"]:focus,
+.write-form textarea:focus {
+  border-color: #a34c1d;
+  outline: none;
+}
+
+.write-form button {
+  padding: 0.75rem;
+  background-color: #a34c1d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.write-form button:hover {
+  background-color: #8c3f18;
+}

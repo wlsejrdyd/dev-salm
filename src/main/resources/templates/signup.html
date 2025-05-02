@@ -1,59 +1,40 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>회원가입 - SALM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <title>회원가입 | SALM</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/signup.css">
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen items-center justify-center">
+<body>
 
-    <div class="w-full max-w-md p-8 bg-white rounded-xl shadow-md">
-        <h1 class="text-2xl font-bold text-center text-indigo-600 mb-6">SALM 회원가입</h1>
+  <div th:replace="~{fragments/header :: common-header}"></div>
 
-        <form method="post" action="/signup">
-            <div class="mb-4">
-                <label class="block mb-1 text-gray-600">아이디</label>
-                <input type="text" name="username" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
-            </div>
+  <main class="main">
+    <h1>회원가입</h1>
+    <form method="post" action="/signup" class="signup-form">
+      <label for="username">아이디</label>
+      <input type="text" id="username" name="username" required>
 
-            <div class="mb-4">
-                <label class="block mb-1 text-gray-600">비밀번호</label>
-                <input type="password" name="password" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
-            </div>
+      <label for="password">비밀번호</label>
+      <input type="password" id="password" name="password" required>
 
-            <div class="mb-4">
-                <label class="block mb-1 text-gray-600">이메일</label>
-                <input type="email" name="email" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
-            </div>
+      <label for="email">이메일</label>
+      <input type="email" id="email" name="email" required>
 
-            <div class="mb-4">
-                <label class="block mb-1 text-gray-600">이름</label>
-                <input type="text" name="name" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
-            </div>
+      <label for="name">이름</label>
+      <input type="text" id="name" name="name" required>
 
-            <div class="mb-4">
-                <label class="block mb-1 text-gray-600">생년월일</label>
-                <input type="text" name="birthdate" placeholder="YYYY-MM-DD" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
-            </div>
+      <label for="birth">생년월일</label>
+      <input type="date" id="birth" name="birth" required>
 
-            <div class="mb-4">
-                <label class="block mb-1 text-gray-600">성별</label>
-                <select name="gender" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                    <option value="">선택하세요</option>
-                    <option value="남자">남자</option>
-                    <option value="여자">여자</option>
-                </select>
-            </div>
+      <label for="phone">전화번호</label>
+      <input type="tel" id="phone" name="phone" required>
 
-            <div class="mb-6">
-                <label class="block mb-1 text-gray-600">휴대폰 번호</label>
-                <input type="text" name="phone" placeholder="010-0000-0000" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
-            </div>
+      <button type="submit">가입하기</button>
+    </form>
+  </main>
 
-            <button type="submit" class="w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600">회원가입</button>
-        </form>
-    </div>
-
+  <div th:replace="~{fragments/footer :: common-footer}"></div>
 </body>
 </html>
-

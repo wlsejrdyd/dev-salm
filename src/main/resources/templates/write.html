@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>글쓰기 | SALM</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/write.css">
+</head>
+<body>
+
+  <div th:replace="~{fragments/header :: common-header}"></div>
+
+  <header>
+    <a href="/" class="logo-text">salm</a>
+    <nav>
+      <a href="/">홈</a>
+      <a href="/write">글쓰기</a>
+      <a href="/login">로그인</a>
+      <a href="/mypage">마이페이지</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    <h1>글쓰기</h1>
+    <form method="post" action="/submit" class="write-form">
+      <label for="title">제목</label>
+      <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required />
+
+      <label for="content">내용</label>
+      <textarea id="content" name="content" rows="10" placeholder="내용을 입력하세요" required></textarea>
+
+      <button type="submit">작성하기</button>
+    </form>
+  </main>
+
+  <div th:replace="~{fragments/footer :: common-footer}"></div>
+</body>
+</html>
