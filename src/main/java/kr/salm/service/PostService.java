@@ -29,6 +29,11 @@ public class PostService {
         return postRepository.findAll(pageable);
     }
 
+    public Page<Post> findPostsByCategory(String category, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        return postRepository.findAllByCategory(category, pageable);
+    }
+
     public Post findPostById(Long id) {
         return postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));

@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/posts.css">
 </head>
-<body>
+<body th:data-category="${category}">
 
   <div th:replace="~{fragments/header :: common-header}"></div>
 

@@ -2,12 +2,10 @@ package kr.salm.controller;
 
 import kr.salm.entity.Post;
 import kr.salm.service.PostService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -19,28 +17,27 @@ public class PostRestController {
         this.postService = postService;
     }
 
-    @GetMapping
-    public ResponseEntity<Page<Post>> getPosts(@RequestParam(defaultValue = "0") int page) {
-        return ResponseEntity.ok(postService.findPostsByPage(page, 10));
+    @GetMapping("/latest")
+    public List<Post> getLatestPosts(@RequestParam(defaultValue = "70") int count) {
+        return postService.findLatestPosts(count);
     }
 
-    // 🔥 추천글 mock API - 총 70개, 10개씩 페이징
-    @GetMapping("/recommend")
-    public ResponseEntity<Page<Post>> getMockRecommendPosts(@RequestParam(defaultValue = "0") int page) {
-        List<Post> mockList = new ArrayList<>();
-        int start = page * 10;
-        int end = Math.min(start + 10, 70);
+    @GetMapping("/recommended")
+    public List<Post> getRecommendedPosts(@RequestParam(defaultValue = "10") int count) {
+        return postService.findRecommendedPosts(count);
+    }
 
-        for (int i = start + 1; i <= end; i++) {
-            Post post = new Post();
-            post.setTitle("추천 살림 노하우 " + i);
-            post.setContent("이건 추천 콘텐츠 예시입니다. 번호: " + i + "번 살림 꿀팁을 확인해보세요!");
-            post.setAuthor("추천고수");
-            post.setCreatedAt(java.time.LocalDateTime.now().minusDays(i));
-            mockList.add(post);
-        }
+    @GetMapping("/category/{category}")
+    public Page<Post> getPostsByCategory(@PathVariable String category,
+                                         @RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "10") int size) {
+        return postService.findPostsByCategory(category, page, size);
+    }
 
-        Page<Post> mockPage = new PageImpl<>(mockList);
-        return ResponseEntity.ok(mockPage);
+    // ✅ [추가] 일반 게시글 전체 조회 API
+    @GetMapping
+    public Page<Post> getAllPosts(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "10") int size) {
+        return postService.findPostsByPage(page, size);
     }
 }

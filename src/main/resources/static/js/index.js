@@ -8,7 +8,10 @@ async function loadPosts() {
   postLoading = true;
 
   try {
-    const res = await fetch(`/api/posts?page=${postPage}`);
+    const category = document.body.dataset.category;
+    const apiUrl = category ? `/api/posts/category/${category}` : '/api/posts';
+
+    const res = await fetch(`${apiUrl}?page=${postPage}`);
     const json = await res.json();
 
     if (!json.content || json.content.length === 0) {
@@ -41,11 +44,11 @@ async function loadPosts() {
 // 추천 슬라이드 초기 로딩
 async function loadRecommendSlider() {
   try {
-    const res = await fetch('/api/posts/recommend?page=0');
+    const res = await fetch('/api/posts/recommended');  // ✅ 수정된 경로
     const json = await res.json();
 
     const slider = document.getElementById('recommend-slider');
-    json.content.forEach(post => {
+    json.forEach(post => {
       const el = document.createElement('div');
       el.className = 'slider-item';
       el.innerHTML = `
@@ -59,20 +62,6 @@ async function loadRecommendSlider() {
   } catch (e) {
     console.error('추천 슬라이더 로딩 실패:', e);
   }
-}
-
-// 자동 슬라이더
-function startSlider() {
-  const slider = document.getElementById('recommend-slider');
-  let scrollAmount = 0;
-
-  setInterval(() => {
-    scrollAmount += 1;
-    if (scrollAmount >= slider.scrollWidth - slider.clientWidth) {
-      scrollAmount = 0;
-    }
-    slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-  }, 50);
 }
 
 // 초기 실행 및 스크롤 이벤트
