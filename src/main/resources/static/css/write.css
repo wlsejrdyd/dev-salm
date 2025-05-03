@@ -30,6 +30,10 @@
   outline: none;
 }
 
+.write-form input[type="file"] {
+  padding: 0.4rem 0;
+}
+
 .write-form button {
   padding: 0.75rem;
   background-color: #a34c1d;
@@ -44,4 +48,18 @@
 
 .write-form button:hover {
   background-color: #8c3f18;
+}
+
+.image-preview {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.image-preview img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
