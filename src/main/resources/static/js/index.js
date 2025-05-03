@@ -21,10 +21,11 @@ async function loadPosts() {
       const el = document.createElement('div');
       el.className = 'post-card';
       el.innerHTML = `
-        <h3>${post.title}</h3>
-        <p>${post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content}</p>
-        <div class="meta">${post.author} · ${post.createdAt.replace('T', ' ').substring(0, 16)}</div>
-        <a href="/post/${post.id}" class="read-more">자세히 보기</a>
+        <a href="/post/${post.id}" class="card-link">
+          <h3>${post.title}</h3>
+          <p>${post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content}</p>
+          <div class="meta">${post.author} · ${post.createdAt.replace('T', ' ').substring(0, 16)}</div>
+        </a>
       `;
       container.appendChild(el);
     });
@@ -60,7 +61,7 @@ async function loadRecommendSlider() {
   }
 }
 
-// 자동 슬라이더 (scrollTo 방식)
+// 자동 슬라이더
 function startSlider() {
   const slider = document.getElementById('recommend-slider');
   let scrollAmount = 0;

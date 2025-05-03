@@ -23,10 +23,17 @@ public class PostController {
         return "post-detail";
     }
 
-    // 필요 없다면 이 아래 메서드는 제거해도 됨
-    // @GetMapping("/list")
-    // public String showAllPosts(Model model) {
-    //     model.addAttribute("posts", postService.findPostsByPage(0, 10).getContent());
-    //     return "posts";
-    // }
+    @GetMapping("/write")
+    public String showWriteForm() {
+        return "write";
+    }
+
+    @PostMapping("/write")
+    public String submitPost(@RequestParam String title,
+                             @RequestParam String content,
+                             @RequestParam(defaultValue = "익명") String author) {
+        postService.savePost(title, content, author);
+        return "redirect:/";
+    }
+
 }

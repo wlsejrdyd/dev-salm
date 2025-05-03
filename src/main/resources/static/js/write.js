@@ -1,4 +1,4 @@
-// write.js - 글쓰기 입력 유효성 검사 (예시)
+// write.js - 글쓰기 입력 유효성 검사
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('.write-form');

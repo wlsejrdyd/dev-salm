@@ -118,3 +118,8 @@ body {
   color: #a34c1d;
   text-decoration: underline;
 }
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}

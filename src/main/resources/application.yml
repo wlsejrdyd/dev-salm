@@ -10,8 +10,8 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        show_sql: true
-        format_sql: true
+        show_sql: false     # 🔥 콘솔 SQL 출력 끔
+        format_sql: false
     open-in-view: true
 
   mail:
@@ -79,3 +79,5 @@ spring:
 logging:
   level:
     org.springframework: INFO
+    org.hibernate.SQL: OFF                               # 🔥 Hibernate SQL 로그 끔
+    org.hibernate.type.descriptor.sql.BasicBinder: OFF   # 🔥 파라미터 바인딩 로그 끔
