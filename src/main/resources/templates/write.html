@@ -11,20 +11,24 @@
 
   <div th:replace="~{fragments/header :: common-header}"></div>
 
-  <main class="write-container">
-    <form class="write-form" th:action="@{/post/write}" method="post">
-      <label for="title">제목</label>
-      <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+  <main>
+    <section>
+      <h1 style="text-align:center;">살림 이야기 쓰기</h1>
+      <form th:action="@{/post/write}" method="post" enctype="multipart/form-data" class="write-form">
+        <label for="title">제목</label>
+        <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
 
-      <label for="content">내용</label>
-      <textarea id="content" name="content" rows="10" placeholder="내용을 입력하세요" required></textarea>
+        <label for="content">내용</label>
+        <textarea id="content" name="content" rows="10" placeholder="당신의 살림 노하우나 이야기를 적어보세요" required></textarea>
 
-      <label for="images">이미지 첨부 (최대 5장)</label>
-      <input type="file" id="images" name="images" accept="image/*" multiple>
-      <div class="image-preview" id="image-preview"></div>
+        <label for="images">이미지 업로드 (최대 여러 장)</label>
+        <input type="file" id="images" name="images" accept="image/*" multiple>
 
-      <button type="submit">작성 완료</button>
-    </form>
+        <div id="image-preview" class="write-preview"></div>
+
+        <button type="submit">등록</button>
+      </form>
+    </section>
   </main>
 
   <div th:replace="~{fragments/footer :: common-footer}"></div>

@@ -1,6 +1,7 @@
 package kr.salm.controller;
 
 import kr.salm.entity.Post;
+import kr.salm.service.FileService;
 import kr.salm.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +15,11 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final FileService fileService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, FileService fileService) {
         this.postService = postService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/{id}")
@@ -36,11 +39,19 @@ public class PostController {
                              @RequestParam String content,
                              @RequestParam(required = false, defaultValue = "익명") String author,
                              @RequestParam(required = false) List<MultipartFile> images) {
-        // 기본 저장만 처리. 이미지 저장은 추후 구현
-        postService.savePost(title, content, author);
 
-        // ✅ 향후 파일 저장 로직 추가 가능
-        // images.forEach(file -> { ... });
+        Post post = postService.savePost(title, content, author);
+
+        // 이미지 저장 처리
+        if (images != null) {
+            for (MultipartFile image : images) {
+                String savedFileName = fileService.saveFile(image);
+                if (savedFileName != null) {
+                    System.out.println("저장된 파일명: " + savedFileName);
+                    // TODO: post와 연결되는 이미지 저장 로직 추가 예정
+                }
+            }
+        }
 
         return "redirect:/";
     }

@@ -31,7 +31,11 @@
 }
 
 .write-form input[type="file"] {
-  padding: 0.4rem 0;
+  padding: 0.4rem 0.6rem;
+  background-color: #f4f4f4;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
 }
 
 .write-form button {
@@ -50,16 +54,17 @@
   background-color: #8c3f18;
 }
 
-.image-preview {
+.write-preview {
   display: flex;
-  gap: 0.5rem;
   flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1rem;
 }
 
-.image-preview img {
+.thumbnail {
   width: 100px;
   height: 100px;
   object-fit: cover;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }

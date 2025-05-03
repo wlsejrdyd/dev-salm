@@ -81,3 +81,6 @@ logging:
     org.springframework: INFO
     org.hibernate.SQL: OFF                               # 🔥 Hibernate SQL 로그 끔
     org.hibernate.type.descriptor.sql.BasicBinder: OFF   # 🔥 파라미터 바인딩 로그 끔
+
+file:
+  upload-dir: /data/salm-img-uploads

@@ -15,9 +15,11 @@ public class WebSecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/js/**", "/img/**",
-                                 "/", "/login", "/signup", "/signup_success",
-                                 "/post/**", "/api/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                .requestMatchers("/login", "/signup", "/signup_success").permitAll()
+                .requestMatchers("/", "/api/**").permitAll()
+                .requestMatchers("/post/write").authenticated()        // ✅ 먼저 위치
+                .requestMatchers("/post/*").permitAll()                // ✅ 뒤에 위치
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login

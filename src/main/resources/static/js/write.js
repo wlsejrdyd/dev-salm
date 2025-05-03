@@ -1,26 +1,21 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.querySelector('.write-form');
-  const titleInput = document.getElementById('title');
-  const contentInput = document.getElementById('content');
-  const imageInput = document.getElementById('images');
-  const previewContainer = document.getElementById('image-preview');
+document.addEventListener("DOMContentLoaded", () => {
+  const imageInput = document.getElementById("images");
+  const previewContainer = document.getElementById("image-preview");
 
-  form.addEventListener('submit', e => {
-    if (titleInput.value.trim() === '' || contentInput.value.trim() === '') {
-      e.preventDefault();
-      alert('제목과 내용을 모두 입력해 주세요.');
-    }
-  });
+  imageInput.addEventListener("change", () => {
+    previewContainer.innerHTML = ""; // 기존 썸네일 초기화
 
-  imageInput.addEventListener('change', function () {
-    previewContainer.innerHTML = '';
-    const files = Array.from(this.files).slice(0, 5); // 최대 5장
+    const files = imageInput.files;
+    if (!files || files.length === 0) return;
 
-    files.forEach(file => {
+    Array.from(files).forEach(file => {
+      if (!file.type.startsWith("image/")) return;
+
       const reader = new FileReader();
       reader.onload = e => {
-        const img = document.createElement('img');
+        const img = document.createElement("img");
         img.src = e.target.result;
+        img.classList.add("thumbnail");
         previewContainer.appendChild(img);
       };
       reader.readAsDataURL(file);
