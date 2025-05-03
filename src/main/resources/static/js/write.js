@@ -1,52 +1,28 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
+  const dropZone = document.getElementById("drop-zone");
   const fileInput = document.getElementById("images");
   const thumbContainer = document.getElementById("thumb-container");
-  const dropZone = document.getElementById("drop-zone");
-  const form = document.querySelector(".write-form");
-  const submitBtn = form.querySelector("button[type='submit']");
-  const loader = document.getElementById("loader");
 
-  const MAX_FILES = 10;
+  const selectedFiles = new Map(); // 파일명 기준 중복 방지
 
-  // 기존 업로드 이벤트
-  fileInput.addEventListener("change", handleFiles);
+  function handleFiles(files) {
+    for (let file of files) {
+      if (!file.type.startsWith("image/")) continue;
 
-  // 드래그앤드롭 지원
-  ["dragenter", "dragover"].forEach(event =>
-    dropZone.addEventListener(event, e => {
-      e.preventDefault();
-      dropZone.classList.add("drag-over");
-    })
-  );
+      if (selectedFiles.size >= 5) {
+        alert("이미지는 최대 5장까지만 업로드 가능합니다.");
+        break;
+      }
 
-  ["dragleave", "drop"].forEach(event =>
-    dropZone.addEventListener(event, () => {
-      dropZone.classList.remove("drag-over");
-    })
-  );
+      if (selectedFiles.has(file.name)) {
+        alert(`"${file.name}" 파일은 이미 추가되었습니다.`);
+        continue;
+      }
 
-  dropZone.addEventListener("drop", e => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    fileInput.files = files;
-    handleFiles();
-  });
+      selectedFiles.set(file.name, file);
 
-  function handleFiles() {
-    const files = fileInput.files;
-
-    if (files.length > MAX_FILES) {
-      alert("이미지는 최대 10장까지만 첨부할 수 있습니다.");
-      fileInput.value = "";
-      thumbContainer.innerHTML = "";
-      return;
-    }
-
-    thumbContainer.innerHTML = "";
-
-    [...files].forEach((file, idx) => {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = function (e) {
         const wrapper = document.createElement("div");
         wrapper.className = "thumb-wrapper";
 
@@ -54,52 +30,49 @@ document.addEventListener("DOMContentLoaded", () => {
         img.src = e.target.result;
 
         const btn = document.createElement("button");
-        btn.innerHTML = "×";
-        btn.type = "button";
-        btn.onclick = () => removeFile(idx);
+        btn.innerText = "×";
+        btn.onclick = function () {
+          selectedFiles.delete(file.name);
+          wrapper.remove();
+          updateInputFiles();
+        };
 
         wrapper.appendChild(img);
         wrapper.appendChild(btn);
         thumbContainer.appendChild(wrapper);
       };
       reader.readAsDataURL(file);
-    });
-  }
-
-  form.addEventListener("submit", (e) => {
-    if (!validateForm()) {
-      e.preventDefault();
-      return;
     }
 
-    loader.style.display = "block";
-    submitBtn.disabled = true;
-  });
-});
-
-function validateForm() {
-  const title = document.getElementById("title").value.trim();
-  const content = document.getElementById("content").value.trim();
-  const errorBox = document.getElementById("form-error");
-
-  if (!title || !content) {
-    errorBox.style.display = "block";
-    return false;
+    updateInputFiles();
   }
 
-  errorBox.style.display = "none";
-  return true;
-}
+  function updateInputFiles() {
+    const dataTransfer = new DataTransfer();
+    for (let file of selectedFiles.values()) {
+      dataTransfer.items.add(file);
+    }
+    fileInput.files = dataTransfer.files;
+  }
 
-function removeFile(index) {
-  const dt = new DataTransfer();
-  const input = document.getElementById("images");
-  const { files } = input;
+  dropZone.addEventListener("click", () => fileInput.click());
 
-  [...files].forEach((file, i) => {
-    if (i !== index) dt.items.add(file);
+  dropZone.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    dropZone.classList.add("drag-over");
   });
 
-  input.files = dt.files;
-  input.dispatchEvent(new Event("change"));
-}
+  dropZone.addEventListener("dragleave", function () {
+    dropZone.classList.remove("drag-over");
+  });
+
+  dropZone.addEventListener("drop", function (e) {
+    e.preventDefault();
+    dropZone.classList.remove("drag-over");
+    handleFiles(e.dataTransfer.files);
+  });
+
+  fileInput.addEventListener("change", function () {
+    handleFiles(fileInput.files);
+  });
+});

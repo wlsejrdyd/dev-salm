@@ -38,11 +38,10 @@ public class PostController {
     public String submitPost(@RequestParam String title,
                              @RequestParam String content,
                              @RequestParam(required = false, defaultValue = "익명") String author,
-                             @RequestParam(required = false) List<MultipartFile> images) {
+                             @RequestParam(name = "images", required = false) List<MultipartFile> images) {
 
         Post post = postService.savePost(title, content, author);
 
-        // 이미지 저장 처리
         if (images != null) {
             for (MultipartFile image : images) {
                 String savedFileName = fileService.saveFile(image);
