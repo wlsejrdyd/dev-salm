@@ -17,7 +17,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/css/**", "/js/**", "/img/**",
                                  "/", "/login", "/signup", "/signup_success",
-                                 "/api/**").permitAll()
+                                 "/api/**", "/oauth2/**", "/login/oauth2/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login
@@ -28,6 +28,10 @@ public class WebSecurityConfig {
             .logout(logout -> logout
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
+            )
+            .oauth2Login(oauth -> oauth
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true)
             );
 
         return http.build();

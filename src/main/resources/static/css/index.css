@@ -1,5 +1,18 @@
 /* index.css - SALM 메인 페이지 전용 */
 
+body {
+  overflow: hidden; /* ✅ 전체 스크롤 제거 */
+}
+
+* {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  display: none;            /* Chrome/Safari/Opera */
+}
+
 .index-container {
   display: flex;
   flex-direction: column;

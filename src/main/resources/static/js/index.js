@@ -60,7 +60,7 @@ async function loadRecommendSlider() {
   }
 }
 
-// 자동 슬라이더
+// 자동 슬라이더 (scrollTo 방식)
 function startSlider() {
   const slider = document.getElementById('recommend-slider');
   let scrollAmount = 0;
