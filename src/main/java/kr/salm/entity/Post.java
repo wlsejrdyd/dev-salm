@@ -20,15 +20,19 @@ public class Post {
     @Column(nullable = false, length = 100)
     private String author;
 
+    @Column(nullable = false, length = 50)
+    private String category; // ✅ 추가된 필드
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     public Post() {}
 
-    public Post(String title, String content, String author) {
+    public Post(String title, String content, String author, String category) {
         this.title = title;
         this.content = content;
         this.author = author;
+        this.category = category;
     }
 
     @PrePersist
@@ -45,6 +49,8 @@ public class Post {
     public void setContent(String content) { this.content = content; }
     public String getAuthor() { return author; }
     public void setAuthor(String author) { this.author = author; }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
     public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }  // ✅ 추가
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

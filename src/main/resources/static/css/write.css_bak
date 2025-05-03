@@ -121,7 +121,7 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
-/* ✅ 카테고리 버튼 스타일 - 수정 반영 */
+/* ✅ 카테고리 버튼 스타일 */
 .category-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -129,25 +129,24 @@
 }
 
 .category-btn {
-  padding: 0.5rem 1.2rem;
-  border: 1px solid rgba(150, 150, 150, 0.3);
+  padding: 0.4rem 1rem;
+  border: 1px solid #ccc;
   border-radius: 20px;
-  background-color: rgba(200, 200, 200, 0.2);  /* 기본 반투명 배경 */
-  color: #444;
+  background-color: #f4f4f4;
+  color: #333;
   font-size: 0.95rem;
-  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .category-btn:hover {
-  background-color: rgba(163, 76, 29, 0.1);
+  background-color: #faeee3;
   border-color: #a34c1d;
   color: #a34c1d;
 }
 
 .category-btn.active {
   background-color: #a34c1d;
-  color: #fff;
+  color: white;
   border-color: #a34c1d;
 }

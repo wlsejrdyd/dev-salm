@@ -19,8 +19,8 @@ public class PostService {
     }
 
     @Transactional
-    public Post savePost(String title, String content, String author) {
-        Post post = new Post(title, content, author);
+    public Post savePost(String title, String content, String author, String category) {
+        Post post = new Post(title, content, author, category);
         return postRepository.save(post);
     }
 
@@ -39,7 +39,6 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
-    // ✅ 본문에서 URL 자동 추출
     public List<String> extractUrls(String content) {
         List<String> urls = new ArrayList<>();
         Pattern urlPattern = Pattern.compile(
@@ -52,13 +51,11 @@ public class PostService {
         return urls;
     }
 
-    // ✅ 최신 게시글 N개 조회
     public List<Post> findLatestPosts(int count) {
         Pageable pageable = PageRequest.of(0, count, Sort.by("createdAt").descending());
         return postRepository.findAll(pageable).getContent();
     }
 
-    // ✅ 추천 게시물 N개 (임시로 최신글 재사용)
     public List<Post> findRecommendedPosts(int count) {
         return findLatestPosts(count);
     }

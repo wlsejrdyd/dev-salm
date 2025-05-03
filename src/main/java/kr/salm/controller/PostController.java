@@ -37,10 +37,11 @@ public class PostController {
     @PostMapping("/write")
     public String submitPost(@RequestParam String title,
                              @RequestParam String content,
+                             @RequestParam String category,
                              @RequestParam(required = false, defaultValue = "익명") String author,
-                             @RequestParam(name = "images", required = false) List<MultipartFile> images) {
+                             @RequestParam(required = false) List<MultipartFile> images) {
 
-        Post post = postService.savePost(title, content, author);
+        Post post = postService.savePost(title, content, author, category);
 
         if (images != null) {
             for (MultipartFile image : images) {

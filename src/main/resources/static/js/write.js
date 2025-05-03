@@ -2,8 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const dropZone = document.getElementById("drop-zone");
   const fileInput = document.getElementById("images");
   const thumbContainer = document.getElementById("thumb-container");
+  const categoryInput = document.getElementById("category");
+  const categoryButtons = document.querySelectorAll(".category-btn");
 
-  const selectedFiles = new Map(); // 파일명 기준 중복 방지
+  const selectedFiles = new Map();
 
   function handleFiles(files) {
     for (let file of files) {
@@ -75,4 +77,24 @@ document.addEventListener("DOMContentLoaded", function () {
   fileInput.addEventListener("change", function () {
     handleFiles(fileInput.files);
   });
+
+  categoryButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      categoryButtons.forEach(btn => btn.classList.remove("active"));
+      this.classList.add("active");
+      categoryInput.value = this.getAttribute("data-value");
+    });
+  });
 });
+
+function validateForm() {
+  const title = document.getElementById("title").value.trim();
+  const content = document.getElementById("content").value.trim();
+  const category = document.getElementById("category").value.trim();
+
+  if (!title || !content || !category) {
+    document.getElementById("form-error").style.display = "block";
+    return false;
+  }
+  return true;
+}
