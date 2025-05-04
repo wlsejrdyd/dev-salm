@@ -2,6 +2,8 @@ package kr.salm.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -23,6 +25,11 @@ public class Post {
     @Column(nullable = false, length = 50)
     private String category; // ✅ 추가된 필드
 
+    @ElementCollection
+    @CollectionTable(name = "post_images", joinColumns = @JoinColumn(name = "post_id"))
+    @Column(name = "image")
+    private List<String> images = new ArrayList<>();  // 이미지 목록 필드 추가
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -42,6 +49,7 @@ public class Post {
         }
     }
 
+    // Getter/Setter
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -51,6 +59,8 @@ public class Post {
     public void setAuthor(String author) { this.author = author; }
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
+    public List<String> getImages() { return images; }
+    public void setImages(List<String> images) { this.images = images; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

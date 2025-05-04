@@ -121,7 +121,6 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
-/* ✅ 카테고리 버튼 스타일 - 수정 반영 */
 .category-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -132,7 +131,7 @@
   padding: 0.5rem 1.2rem;
   border: 1px solid rgba(150, 150, 150, 0.3);
   border-radius: 20px;
-  background-color: rgba(200, 200, 200, 0.2);  /* 기본 반투명 배경 */
+  background-color: rgba(200, 200, 200, 0.2);
   color: #444;
   font-size: 0.95rem;
   font-weight: 500;
@@ -148,6 +147,44 @@
 
 .category-btn.active {
   background-color: #a34c1d;
-  color: #fff;
+  color: white;
   border-color: #a34c1d;
+}
+
+/* 카테고리 영역 스타일 변경 */
+.category-label {
+    display: none;
+}
+
+/* 카테고리 버튼 기본 스타일 */
+.category-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* 버튼 투명하게 만들기 */
+.category-buttons button {
+    background-color: transparent;
+    border: 1px solid #ccc;
+    color: #ccc;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* 선택된 버튼 스타일 */
+.category-buttons button.selected {
+    background-color: #ff7f50;
+    color: white;
+    border: 1px solid #ff7f50;
+}
+
+/* hover 효과 */
+.category-buttons button:hover {
+    background-color: #ff7f50;
+    color: white;
+}
+/* 카테고리 제목 숨기기 */
+.category-label {
+    display: none;
 }
