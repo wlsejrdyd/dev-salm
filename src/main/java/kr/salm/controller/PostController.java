@@ -52,8 +52,6 @@ public class PostController {
 
         // 3. post + 이미지 함께 저장
         Post saved = postService.savePost(post);
-        System.out.println("✅ 저장된 post.id: " + saved.getId());
-        System.out.println("✅ 저장된 이미지들: " + saved.getImages());
 
         return "redirect:/";
     }

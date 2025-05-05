@@ -37,7 +37,6 @@ public class PostService {
     // ✅ Post 객체 자체를 저장 (이미지 포함되어 있어야 함)
     @Transactional
     public Post savePost(Post post) {
-        System.out.println("💾 저장될 이미지 리스트: " + post.getImages());
         return postRepository.save(post);
     }
 
