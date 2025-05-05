@@ -39,22 +39,19 @@ public class PostController {
                              @RequestParam String content,
                              @RequestParam String category,
                              @RequestParam(required = false, defaultValue = "익명") String author,
-                             @RequestParam(required = false) List<MultipartFile> images) {
+                             @RequestParam(required = false) MultipartFile[] images) {
 
-        postService.savePost(title, content, author, category);  // 수정된 부분
+        // 게시글 저장
+        Post post = postService.savePost(title, content, author, category);
 
-        if (images != null && !images.isEmpty()) {
-            // MultipartFile[]로 변환하여 saveFiles 메소드 호출
-            String[] imagesArray = new String[images.size()];
-            imagesArray = images.stream().map(image -> fileService.saveFiles(images.toArray(new MultipartFile[0]))).toArray(String[]::new);
-            
-            // 저장된 파일 이름을 리스트로 받아서 처리할 수 있습니다
-            for (String savedFileName : imagesArray) {
-                System.out.println("저장된 파일명: " + savedFileName);
-                // TODO: post와 연결되는 이미지 저장 로직 추가 예정
-            }
+        // 이미지 저장
+        if (images != null && images.length > 0) {
+            List<String> savedFileNames = fileService.saveFiles(images);
+            post.setImages(savedFileNames);  // 이미지명 저장
+            postService.savePost(post);      // 이미지 포함해 다시 저장
         }
 
         return "redirect:/";
     }
 }
+

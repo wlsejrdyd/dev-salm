@@ -24,6 +24,12 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    // ✅ 추가된 메서드: Post 객체 자체를 받는 오버로드
+    @Transactional
+    public Post savePost(Post post) {
+        return postRepository.save(post);
+    }
+
     public Page<Post> findPostsByPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         return postRepository.findAll(pageable);
@@ -65,3 +71,4 @@ public class PostService {
         return findLatestPosts(count);
     }
 }
+
