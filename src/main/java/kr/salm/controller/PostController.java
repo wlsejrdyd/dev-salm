@@ -41,17 +41,20 @@ public class PostController {
                              @RequestParam(required = false, defaultValue = "익명") String author,
                              @RequestParam(required = false) MultipartFile[] images) {
 
-        // 게시글 저장
-        Post post = postService.savePost(title, content, author, category);
+        // 1. 게시글 객체 생성
+        Post post = new Post(title, content, author, category);
 
-        // 이미지 저장
+        // 2. 이미지 저장
         if (images != null && images.length > 0) {
             List<String> savedFileNames = fileService.saveFiles(images);
-            post.setImages(savedFileNames);  // 이미지명 저장
-            postService.savePost(post);      // 이미지 포함해 다시 저장
+            post.setImages(savedFileNames);  // Post에 이미지 파일명 추가
         }
+
+        // 3. post + 이미지 함께 저장
+        Post saved = postService.savePost(post);
+        System.out.println("✅ 저장된 post.id: " + saved.getId());
+        System.out.println("✅ 저장된 이미지들: " + saved.getImages());
 
         return "redirect:/";
     }
 }
-

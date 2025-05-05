@@ -24,9 +24,20 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    // ✅ 추가된 메서드: Post 객체 자체를 받는 오버로드
+    // ✅ 이미지 목록 포함해서 저장
+    @Transactional
+    public Post savePostWithImages(String title, String content, String author, String category, List<String> imageList) {
+        Post post = new Post(title, content, author, category);
+        if (imageList != null && !imageList.isEmpty()) {
+            post.setImages(imageList);
+        }
+        return postRepository.save(post);
+    }
+
+    // ✅ Post 객체 자체를 저장 (이미지 포함되어 있어야 함)
     @Transactional
     public Post savePost(Post post) {
+        System.out.println("💾 저장될 이미지 리스트: " + post.getImages());
         return postRepository.save(post);
     }
 
@@ -71,4 +82,3 @@ public class PostService {
         return findLatestPosts(count);
     }
 }
-

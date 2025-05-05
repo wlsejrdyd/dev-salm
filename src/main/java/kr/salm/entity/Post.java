@@ -25,7 +25,7 @@ public class Post {
     @Column(nullable = false, length = 50)
     private String category; // ✅ 추가된 필드
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "post_images", joinColumns = @JoinColumn(name = "post_id"))
     @Column(name = "image")
     private List<String> images = new ArrayList<>();  // 이미지 목록 필드 추가
