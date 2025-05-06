@@ -9,8 +9,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // /img/** 요청을 실제 파일 시스템의 /data/salm-img-uploads/ 로 매핑
+        // 시스템 이미지 (로고 등) 경로 /img/** -> classpath:/static/img/ 디렉토리로 매핑
         registry.addResourceHandler("/img/**")
+                .addResourceLocations("classpath:/static/img/");
+
+        // 게시글 이미지 경로 /data/** -> /data/salm-img-uploads/ 외부 경로로 매핑
+        registry.addResourceHandler("/data/**")
                 .addResourceLocations("file:/data/salm-img-uploads/");
     }
 }
+
