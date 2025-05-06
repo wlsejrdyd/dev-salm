@@ -6,6 +6,33 @@
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/post.css">
   <script src="/js/post-detail.js" defer></script>
+  <style>
+    .product-card {
+      border: 1px solid #ddd;
+      background-color: #f9f7f3;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .product-card-icon {
+      font-size: 1.5rem;
+      color: #a34c1d;
+    }
+
+    .product-card-text {
+      font-weight: bold;
+      color: #333;
+      font-size: 1rem;
+    }
+
+    .product-card:hover {
+      background-color: #f2ece4;
+    }
+  </style>
 </head>
 <body>
 
@@ -18,7 +45,25 @@
         <span th:text="${post.author.name}">작성자</span> ·
         <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}">작성일</span>
       </div>
+
+      <!-- 본문 내용 -->
       <div class="post-content" th:text="${post.content}">본문 내용</div>
+
+      <!-- 이미지 썸네일 표시 -->
+      <div class="post-images" th:if="${post.images != null}">
+        <img th:each="img : ${post.images}"
+             th:src="@{'/img/' + ${img}}"
+             alt="게시글 이미지"
+             class="post-image"/>
+      </div>
+
+      <!-- 상품 링크 카드 -->
+      <div class="post-link" th:if="${post.url != null}">
+        <a th:href="${post.url}" target="_blank" class="product-card">
+          <span class="product-card-icon">🛒</span>
+          <span class="product-card-text">상품 보러가기</span>
+        </a>
+      </div>
 
       <!-- 좋아요 버튼 -->
       <button class="like-btn" type="button">♥ 좋아요</button>

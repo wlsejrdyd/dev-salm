@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
       wrapper.setAttribute("data-index", index);
 
       const img = document.createElement("img");
+      img.className = "thumbnail"; // ✅ 썸네일 클래스 추가
       const reader = new FileReader();
       reader.onload = e => { img.src = e.target.result; };
       reader.readAsDataURL(file);

@@ -21,21 +21,51 @@ public class PostService {
 
     @Transactional
     public Post savePost(String title, String content, User author, String category) {
-        Post post = new Post(title, content, author, category);
+        // 상품 URL 추출
+        List<String> urls = extractUrls(content);
+        String cleanContent = removeUrls(content);
+
+        Post post = new Post(title, cleanContent, author, category);
+        if (urls != null && !urls.isEmpty()) {
+            post.setUrl(urls.get(0));
+        } else {
+            post.setUrl(null);
+        }
+
         return postRepository.save(post);
     }
 
     @Transactional
     public Post savePostWithImages(String title, String content, User author, String category, List<String> imageList) {
-        Post post = new Post(title, content, author, category);
+        // 상품 URL 추출
+        List<String> urls = extractUrls(content);
+        String cleanContent = removeUrls(content);
+
+        Post post = new Post(title, cleanContent, author, category);
         if (imageList != null && !imageList.isEmpty()) {
             post.setImages(imageList);
         }
+        if (urls != null && !urls.isEmpty()) {
+            post.setUrl(urls.get(0));
+        } else {
+            post.setUrl(null);
+        }
+
         return postRepository.save(post);
     }
 
     @Transactional
     public Post savePost(Post post) {
+        List<String> urls = extractUrls(post.getContent());
+        String cleanContent = removeUrls(post.getContent());
+        post.setContent(cleanContent);
+
+        if (urls != null && !urls.isEmpty()) {
+            post.setUrl(urls.get(0));
+        } else {
+            post.setUrl(null);
+        }
+
         return postRepository.save(post);
     }
 
@@ -67,6 +97,11 @@ public class PostService {
             urls.add(matcher.group());
         }
         return urls;
+    }
+
+    public String removeUrls(String content) {
+        if (content == null) return null;
+        return content.replaceAll("(https?:\\/\\/[^\\s]+)", "").trim();
     }
 
     public List<Post> findLatestPosts(int count) {

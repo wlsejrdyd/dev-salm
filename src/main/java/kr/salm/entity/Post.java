@@ -34,6 +34,9 @@ public class Post {
     @Column(length = 255)
     private String thumbnail;
 
+    @Column(length = 1000)
+    private String url;  // ✅ 상품 링크
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -66,6 +69,8 @@ public class Post {
     public void setImages(List<String> images) { this.images = images; }
     public String getThumbnail() { return thumbnail; }
     public void setThumbnail(String thumbnail) { this.thumbnail = thumbnail; }
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

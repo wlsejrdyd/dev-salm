@@ -61,11 +61,13 @@ public class PostController {
             List<String> savedFileNames = fileService.saveFiles(images);
             post.setImages(savedFileNames);
 
-            // 대표 이미지 설정
-            if (representativeIndex != null && representativeIndex >= 0 && representativeIndex < savedFileNames.size()) {
+            // ✅ 대표 이미지 안전하게 설정
+            if (representativeIndex != null &&
+                representativeIndex >= 0 &&
+                representativeIndex < savedFileNames.size()) {
                 post.setThumbnail(savedFileNames.get(representativeIndex));
-            } else {
-                post.setThumbnail(savedFileNames.get(0)); // fallback
+            } else if (!savedFileNames.isEmpty()) {
+                post.setThumbnail(savedFileNames.get(0));
             }
         }
 
