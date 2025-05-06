@@ -18,8 +18,8 @@ public class WebSecurityConfig {
                 .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
                 .requestMatchers("/login", "/signup", "/signup_success").permitAll()
                 .requestMatchers("/", "/api/**").permitAll()
-                .requestMatchers("/post/write").authenticated()        // ✅ 먼저 위치
-                .requestMatchers("/post/*").permitAll()                // ✅ 뒤에 위치
+                .requestMatchers("/post/write", "/post/write/**").authenticated() // ✅ POST도 포함해서 인증 필요
+                .requestMatchers("/post/*").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login

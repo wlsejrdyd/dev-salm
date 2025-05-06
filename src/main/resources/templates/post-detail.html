@@ -15,12 +15,12 @@
     <article class="post">
       <h1 class="post-title" th:text="${post.title}">제목</h1>
       <div class="post-meta">
-        <span th:text="${post.author}">작성자</span> ·
+        <span th:text="${post.author.name}">작성자</span> ·
         <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}">작성일</span>
       </div>
       <div class="post-content" th:text="${post.content}">본문 내용</div>
 
-      <!-- 좋아요 버튼 (추후 기능 확장) -->
+      <!-- 좋아요 버튼 -->
       <button class="like-btn" type="button">♥ 좋아요</button>
 
       <!-- 삭제 버튼 -->

@@ -1,8 +1,13 @@
 package kr.salm.controller;
 
 import kr.salm.entity.Post;
+import kr.salm.entity.User;
 import kr.salm.service.FileService;
 import kr.salm.service.PostService;
+import kr.salm.repository.UserRepository;
+import kr.salm.service.CustomUserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +21,12 @@ public class PostController {
 
     private final PostService postService;
     private final FileService fileService;
+    private final UserRepository userRepository;
 
-    public PostController(PostService postService, FileService fileService) {
+    public PostController(PostService postService, FileService fileService, UserRepository userRepository) {
         this.postService = postService;
         this.fileService = fileService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/{id}")
@@ -34,25 +41,28 @@ public class PostController {
         return "write";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/write")
     public String submitPost(@RequestParam String title,
                              @RequestParam String content,
                              @RequestParam String category,
-                             @RequestParam(required = false, defaultValue = "익명") String author,
+                             @AuthenticationPrincipal CustomUserDetails customUserDetails,
                              @RequestParam(required = false) MultipartFile[] images) {
 
-        // 1. 게시글 객체 생성
-        Post post = new Post(title, content, author, category);
-
-        // 2. 이미지 저장
-        if (images != null && images.length > 0) {
-            List<String> savedFileNames = fileService.saveFiles(images);
-            post.setImages(savedFileNames);  // Post에 이미지 파일명 추가
+        // ✅ 인증 객체 null 방어 처리
+        if (customUserDetails == null || customUserDetails.getUser() == null) {
+            return "redirect:/login";
         }
 
-        // 3. post + 이미지 함께 저장
-        Post saved = postService.savePost(post);
+        User user = customUserDetails.getUser();
+        Post post = new Post(title, content, user, category);
 
+        if (images != null && images.length > 0) {
+            List<String> savedFileNames = fileService.saveFiles(images);
+            post.setImages(savedFileNames);
+        }
+
+        postService.savePost(post);
         return "redirect:/";
     }
 }

@@ -2,6 +2,7 @@ package kr.salm.service;
 
 import jakarta.transaction.Transactional;
 import kr.salm.entity.Post;
+import kr.salm.entity.User;
 import kr.salm.repository.PostRepository;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,13 @@ public class PostService {
     }
 
     @Transactional
-    public Post savePost(String title, String content, String author, String category) {
+    public Post savePost(String title, String content, User author, String category) {
         Post post = new Post(title, content, author, category);
         return postRepository.save(post);
     }
 
-    // ✅ 이미지 목록 포함해서 저장
     @Transactional
-    public Post savePostWithImages(String title, String content, String author, String category, List<String> imageList) {
+    public Post savePostWithImages(String title, String content, User author, String category, List<String> imageList) {
         Post post = new Post(title, content, author, category);
         if (imageList != null && !imageList.isEmpty()) {
             post.setImages(imageList);
@@ -34,7 +34,6 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    // ✅ Post 객체 자체를 저장 (이미지 포함되어 있어야 함)
     @Transactional
     public Post savePost(Post post) {
         return postRepository.save(post);
@@ -62,9 +61,7 @@ public class PostService {
 
     public List<String> extractUrls(String content) {
         List<String> urls = new ArrayList<>();
-        Pattern urlPattern = Pattern.compile(
-            "(https?:\\/\\/[^\\s]+)",
-            Pattern.CASE_INSENSITIVE);
+        Pattern urlPattern = Pattern.compile("(https?:\\/\\/[^\\s]+)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = urlPattern.matcher(content);
         while (matcher.find()) {
             urls.add(matcher.group());

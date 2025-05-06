@@ -19,23 +19,24 @@ public class Post {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column(nullable = false, length = 100)
-    private String author;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
     @Column(nullable = false, length = 50)
-    private String category; // ✅ 추가된 필드
+    private String category;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "post_images", joinColumns = @JoinColumn(name = "post_id"))
     @Column(name = "image")
-    private List<String> images = new ArrayList<>();  // 이미지 목록 필드 추가
+    private List<String> images = new ArrayList<>();
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     public Post() {}
 
-    public Post(String title, String content, String author, String category) {
+    public Post(String title, String content, User author, String category) {
         this.title = title;
         this.content = content;
         this.author = author;
@@ -49,14 +50,13 @@ public class Post {
         }
     }
 
-    // Getter/Setter
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
     public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
-    public String getAuthor() { return author; }
-    public void setAuthor(String author) { this.author = author; }
+    public User getAuthor() { return author; }
+    public void setAuthor(User author) { this.author = author; }
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
     public List<String> getImages() { return images; }

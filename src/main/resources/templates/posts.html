@@ -16,7 +16,7 @@
       <div class="post-card" th:each="post : ${posts}">
         <h2 class="post-title" th:text="${post.title}">제목</h2>
         <p class="post-meta">
-          <span th:text="${post.author}">작성자</span> ·
+          <span th:text="${post.author.name}">작성자</span> ·
           <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}">날짜</span>
         </p>
         <a th:href="@{'/post/' + ${post.id}}" class="read-more">자세히 보기 →</a>

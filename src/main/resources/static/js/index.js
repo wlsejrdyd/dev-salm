@@ -26,7 +26,7 @@ async function loadPosts() {
         <a href="/post/${post.id}" class="card-link">
           <h3>${post.title}</h3>
           <p>${post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content}</p>
-          <div class="meta">${post.author} · ${post.createdAt.replace('T', ' ').substring(0, 16)}</div>
+          <div class="meta">${post.authorName || '익명'} · ${post.createdAt.replace('T', ' ').substring(0, 16)}</div>
         </a>
       `;
       container.appendChild(el);
@@ -104,6 +104,7 @@ function setupCategoryButtons() {
   });
 }
 
+// 게시글 초기화 후 로드
 function resetAndLoadPosts() {
   const container = document.getElementById('post-list');
   container.innerHTML = '';
