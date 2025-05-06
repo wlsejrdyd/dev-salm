@@ -34,8 +34,9 @@ public class PostRestController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/category/{category}")
-    public Page<PostDto> getPostsByCategory(@PathVariable String category,
+    // ✅ 슬래시 포함 카테고리 대응 (ex. 청소/정리)
+    @GetMapping("/category")
+    public Page<PostDto> getPostsByCategory(@RequestParam String category,
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int size) {
         Page<Post> posts = postService.findPostsByCategory(category, page, size);
@@ -55,3 +56,4 @@ public class PostRestController {
         return new PageImpl<>(dtoList, posts.getPageable(), posts.getTotalElements());
     }
 }
+

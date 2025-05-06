@@ -9,8 +9,11 @@ async function loadPosts() {
   postLoading = true;
 
   try {
-    const apiUrl = currentCategory ? `/api/posts/category/${currentCategory}` : '/api/posts';
-    const res = await fetch(`${apiUrl}?page=${postPage}`);
+    const apiUrl = currentCategory
+      ? `/api/posts/category?category=${encodeURIComponent(currentCategory)}&page=${postPage}`
+      : `/api/posts?page=${postPage}`;
+
+    const res = await fetch(apiUrl);
     const json = await res.json();
 
     if (!json.content || json.content.length === 0) {

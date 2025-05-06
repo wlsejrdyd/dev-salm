@@ -5,12 +5,14 @@ plugins {
 }
 
 group = 'kr.salm'
+
 def versionFile = file("version")
 if (versionFile.exists()) {
     version = versionFile.text.trim()
 } else {
     version = "0.0.1-SNAPSHOT"
 }
+
 sourceCompatibility = '17'
 
 repositories {
@@ -25,10 +27,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.2.0'
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+    // ✅ 개발용 DevTools (자동 리스타트 등)
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // ✅ (선택) JPA SQL + 파라미터 보기용 p6spy
+    // implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
