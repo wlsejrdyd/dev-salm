@@ -21,15 +21,13 @@ public class PostService {
 
     @Transactional
     public Post savePost(String title, String content, User author, String category) {
-        // 상품 URL 추출
         List<String> urls = extractUrls(content);
         String cleanContent = removeUrls(content);
 
         Post post = new Post(title, cleanContent, author, category);
         if (urls != null && !urls.isEmpty()) {
             post.setUrl(urls.get(0));
-        } else {
-            post.setUrl(null);
+            extractProductInfo(urls.get(0), post);
         }
 
         return postRepository.save(post);
@@ -37,7 +35,6 @@ public class PostService {
 
     @Transactional
     public Post savePostWithImages(String title, String content, User author, String category, List<String> imageList) {
-        // 상품 URL 추출
         List<String> urls = extractUrls(content);
         String cleanContent = removeUrls(content);
 
@@ -47,8 +44,7 @@ public class PostService {
         }
         if (urls != null && !urls.isEmpty()) {
             post.setUrl(urls.get(0));
-        } else {
-            post.setUrl(null);
+            extractProductInfo(urls.get(0), post);
         }
 
         return postRepository.save(post);
@@ -62,8 +58,7 @@ public class PostService {
 
         if (urls != null && !urls.isEmpty()) {
             post.setUrl(urls.get(0));
-        } else {
-            post.setUrl(null);
+            extractProductInfo(urls.get(0), post);
         }
 
         return postRepository.save(post);
@@ -111,5 +106,23 @@ public class PostService {
 
     public List<Post> findRecommendedPosts(int count) {
         return findLatestPosts(count);
+    }
+
+    // ✅ 임시 상품 정보 추출 (URL 기반 예시)
+    private void extractProductInfo(String url, Post post) {
+        // 여기서는 상품 이름과 가격을 URL에서 단순 추정하는 임시 로직
+        if (url.contains("coupang")) {
+            post.setProductName("쿠팡 특가 상품");
+            post.setProductPrice("₩19,900");
+        } else if (url.contains("naver")) {
+            post.setProductName("네이버 쇼핑 인기상품");
+            post.setProductPrice("₩24,500");
+        } else if (url.contains("gmarket")) {
+            post.setProductName("지마켓 베스트 상품");
+            post.setProductPrice("₩29,000");
+        } else {
+            post.setProductName("등록된 상품");
+            post.setProductPrice("가격 정보 없음");
+        }
     }
 }
