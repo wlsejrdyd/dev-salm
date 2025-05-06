@@ -114,14 +114,21 @@ function setupDropdownToggle() {
 
   if (icon && menu) {
     icon.addEventListener('click', (e) => {
-      e.stopPropagation(); // 바깥 클릭 방지
-      menu.classList.toggle('show');
+      e.stopPropagation();
+
+      // 먼저 모든 드롭다운 닫기
+      document.querySelectorAll('.dropdown-content').forEach(d => d.style.display = 'none');
+
+      // 현재 것만 토글
+      if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+      } else {
+        menu.style.display = 'block';
+      }
     });
 
-    document.addEventListener('click', (e) => {
-      if (!menu.contains(e.target)) {
-        menu.classList.remove('show');
-      }
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.dropdown-content').forEach(d => d.style.display = 'none');
     });
   }
 }
@@ -148,3 +155,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
