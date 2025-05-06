@@ -107,6 +107,25 @@ function setupCategoryButtons() {
   });
 }
 
+// 프로필 드롭다운 클릭 토글
+function setupDropdownToggle() {
+  const icon = document.querySelector('.profile-icon');
+  const menu = document.querySelector('.dropdown-content');
+
+  if (icon && menu) {
+    icon.addEventListener('click', (e) => {
+      e.stopPropagation(); // 바깥 클릭 방지
+      menu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target)) {
+        menu.classList.remove('show');
+      }
+    });
+  }
+}
+
 // 게시글 초기화 후 로드
 function resetAndLoadPosts() {
   const container = document.getElementById('post-list');
@@ -121,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadRecommendSlider();
   loadPosts();
   setupCategoryButtons();
+  setupDropdownToggle();
 
   window.addEventListener('scroll', () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
