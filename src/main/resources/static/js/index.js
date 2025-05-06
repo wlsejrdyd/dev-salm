@@ -1,7 +1,7 @@
 let postPage = 0;
 let postLoading = false;
 let postEnd = false;
-let currentCategory = ''; // 현재 선택된 카테고리
+let currentCategory = '';
 
 // 일반 게시글 무한 스크롤 로딩
 async function loadPosts() {
@@ -10,7 +10,6 @@ async function loadPosts() {
 
   try {
     const apiUrl = currentCategory ? `/api/posts/category/${currentCategory}` : '/api/posts';
-
     const res = await fetch(`${apiUrl}?page=${postPage}`);
     const json = await res.json();
 
@@ -41,7 +40,7 @@ async function loadPosts() {
   }
 }
 
-// 추천 슬라이드 초기 로딩
+// 추천 슬라이드 초기 로딩 + 버튼 설정
 async function loadRecommendSlider() {
   try {
     const res = await fetch('/api/posts/recommended');
@@ -58,10 +57,37 @@ async function loadRecommendSlider() {
       slider.appendChild(el);
     });
 
+    setupSliderControls();
     startSlider();
   } catch (e) {
     console.error('추천 슬라이더 로딩 실패:', e);
   }
+}
+
+// 슬라이더 자동 전환
+function startSlider() {
+  const slider = document.getElementById('recommend-slider');
+  setInterval(() => {
+    slider.scrollBy({ left: 260, behavior: 'smooth' });
+  }, 4000);
+}
+
+// 좌우 버튼 클릭 기능
+function setupSliderControls() {
+  const slider = document.getElementById('recommend-slider');
+
+  const leftBtn = document.createElement('button');
+  leftBtn.className = 'slider-btn left';
+  leftBtn.innerText = '<';
+  leftBtn.onclick = () => slider.scrollBy({ left: -260, behavior: 'smooth' });
+
+  const rightBtn = document.createElement('button');
+  rightBtn.className = 'slider-btn right';
+  rightBtn.innerText = '>';
+  rightBtn.onclick = () => slider.scrollBy({ left: 260, behavior: 'smooth' });
+
+  slider.parentElement.appendChild(leftBtn);
+  slider.parentElement.appendChild(rightBtn);
 }
 
 // 카테고리 버튼 클릭 처리
@@ -78,7 +104,6 @@ function setupCategoryButtons() {
   });
 }
 
-// 게시글 영역 초기화 후 다시 불러오기
 function resetAndLoadPosts() {
   const container = document.getElementById('post-list');
   container.innerHTML = '';
@@ -93,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadPosts();
   setupCategoryButtons();
 
-  // ✅ window 기준 스크롤 이벤트로 수정
   window.addEventListener('scroll', () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
       loadPosts();
