@@ -1,9 +1,13 @@
+<!-- dev-salm/src/main/resources/templates/fragments/header.html -->
 <head>
-  <link rel="icon" href="/img/favicon-192.png" type="image/png" sizes="192x192">
-//  <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
-//  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon-180x180.png">
-//  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
-//  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <meta charset="UTF-8">
+  <title th:text="${pageTitle} ?: 'SALM'">SALM</title>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- ✅ favicon: 여러 브라우저 대응 위해 ico + png 둘 다 명시 -->
+  <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="/img/favicon.png">
+  <link rel="apple-touch-icon" href="/img/favicon.png">
 </head>
 <div th:fragment="common-header">
   <header style="background-color: #fff; border-bottom: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
@@ -49,7 +53,6 @@
       dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
 
-    // 클릭 외부 감지해서 닫기
     document.addEventListener('click', function (event) {
       const dropdowns = document.querySelectorAll('.dropdown-content');
       dropdowns.forEach(d => d.style.display = 'none');

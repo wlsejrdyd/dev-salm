@@ -93,9 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
   loadPosts();
   setupCategoryButtons();
 
-  const postSection = document.querySelector('.post-section');
-  postSection.addEventListener('scroll', () => {
-    if (postSection.scrollTop + postSection.clientHeight >= postSection.scrollHeight - 100) {
+  // ✅ window 기준 스크롤 이벤트로 수정
+  window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
       loadPosts();
     }
   });
