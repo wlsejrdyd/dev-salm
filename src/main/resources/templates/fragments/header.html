@@ -22,7 +22,7 @@
 
           <!-- 로그인 상태 -->
           <li th:if="${#authorization.expression('isAuthenticated()')}">
-            <div class="dropdown" onclick="toggleDropdown(event)">
+            <div class="dropdown">
               <img src="/img/default-profile.png" alt="프로필" class="profile-icon">
               <div class="dropdown-content">
                 <a href="/mypage">마이페이지</a>
@@ -41,21 +41,4 @@
       </nav>
     </div>
   </header>
-
-  <script>
-    function toggleDropdown(event) {
-      event.stopPropagation();
-      const dropdown = event.currentTarget.querySelector('.dropdown-content');
-      const allDropdowns = document.querySelectorAll('.dropdown-content');
-      allDropdowns.forEach(d => {
-        if (d !== dropdown) d.style.display = 'none';
-      });
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-
-    document.addEventListener('click', function (event) {
-      const dropdowns = document.querySelectorAll('.dropdown-content');
-      dropdowns.forEach(d => d.style.display = 'none');
-    });
-  </script>
 </div>

@@ -31,6 +31,9 @@ public class Post {
     @Column(name = "image")
     private List<String> images = new ArrayList<>();
 
+    @Column(length = 255)
+    private String thumbnail;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -61,6 +64,8 @@ public class Post {
     public void setCategory(String category) { this.category = category; }
     public List<String> getImages() { return images; }
     public void setImages(List<String> images) { this.images = images; }
+    public String getThumbnail() { return thumbnail; }
+    public void setThumbnail(String thumbnail) { this.thumbnail = thumbnail; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

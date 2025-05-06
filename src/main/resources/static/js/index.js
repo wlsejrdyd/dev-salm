@@ -54,8 +54,13 @@ async function loadRecommendSlider() {
       const el = document.createElement('div');
       el.className = 'slider-item';
       el.innerHTML = `
-        <h4>${post.title}</h4>
-        <p>${post.content.length > 50 ? post.content.substring(0, 50) + '...' : post.content}</p>
+        <a href="/post/${post.id}">
+          <img src="/uploads/${post.thumbnail || 'default.jpg'}" alt="썸네일" class="recommend-thumb" />
+          <div class="recommend-text">
+            <h4>${post.title}</h4>
+            <p>${post.content.length > 50 ? post.content.substring(0, 50) + '...' : post.content}</p>
+          </div>
+        </a>
       `;
       slider.appendChild(el);
     });
@@ -116,10 +121,7 @@ function setupDropdownToggle() {
     icon.addEventListener('click', (e) => {
       e.stopPropagation();
 
-      // 먼저 모든 드롭다운 닫기
       document.querySelectorAll('.dropdown-content').forEach(d => d.style.display = 'none');
-
-      // 현재 것만 토글
       if (menu.style.display === 'block') {
         menu.style.display = 'none';
       } else {
@@ -155,4 +157,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-

@@ -4,14 +4,16 @@ body {
   overflow-x: hidden;
 }
 
-* {
+/* ✅ 추천 슬라이더 영역만 선택 방지 및 스크롤 제거 */
+.recommend-slider {
   -ms-overflow-style: none;
   scrollbar-width: none;
-  user-select: none; /* ✅ 드래그 시 텍스트 선택 방지 */
 }
-
-*::-webkit-scrollbar {
+.recommend-slider::-webkit-scrollbar {
   display: none;
+}
+.recommend-slider * {
+  user-select: none;
 }
 
 .index-container {

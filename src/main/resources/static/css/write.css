@@ -121,6 +121,20 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
+/* ✅ 대표 배지 */
+.rep-badge {
+  position: absolute;
+  bottom: 4px;
+  left: 6px;
+  background-color: #a34c1d;
+  color: white;
+  padding: 2px 5px;
+  font-size: 0.65rem;
+  border-radius: 4px;
+  z-index: 5;
+  font-weight: bold;
+}
+
 .category-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -149,42 +163,4 @@
   background-color: #a34c1d;
   color: white;
   border-color: #a34c1d;
-}
-
-/* 카테고리 영역 스타일 변경 */
-.category-label {
-    display: none;
-}
-
-/* 카테고리 버튼 기본 스타일 */
-.category-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-/* 버튼 투명하게 만들기 */
-.category-buttons button {
-    background-color: transparent;
-    border: 1px solid #ccc;
-    color: #ccc;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* 선택된 버튼 스타일 */
-.category-buttons button.selected {
-    background-color: #ff7f50;
-    color: white;
-    border: 1px solid #ff7f50;
-}
-
-/* hover 효과 */
-.category-buttons button:hover {
-    background-color: #ff7f50;
-    color: white;
-}
-/* 카테고리 제목 숨기기 */
-.category-label {
-    display: none;
 }

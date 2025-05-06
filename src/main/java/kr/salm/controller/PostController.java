@@ -47,9 +47,9 @@ public class PostController {
                              @RequestParam String content,
                              @RequestParam String category,
                              @AuthenticationPrincipal CustomUserDetails customUserDetails,
-                             @RequestParam(required = false) MultipartFile[] images) {
+                             @RequestParam(required = false) MultipartFile[] images,
+                             @RequestParam(required = false) Integer representativeIndex) {
 
-        // ✅ 인증 객체 null 방어 처리
         if (customUserDetails == null || customUserDetails.getUser() == null) {
             return "redirect:/login";
         }
@@ -60,6 +60,13 @@ public class PostController {
         if (images != null && images.length > 0) {
             List<String> savedFileNames = fileService.saveFiles(images);
             post.setImages(savedFileNames);
+
+            // 대표 이미지 설정
+            if (representativeIndex != null && representativeIndex >= 0 && representativeIndex < savedFileNames.size()) {
+                post.setThumbnail(savedFileNames.get(representativeIndex));
+            } else {
+                post.setThumbnail(savedFileNames.get(0)); // fallback
+            }
         }
 
         postService.savePost(post);
