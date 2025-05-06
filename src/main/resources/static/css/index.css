@@ -1,16 +1,16 @@
 /* index.css - SALM 메인 페이지 전용 */
 
 body {
-  overflow: hidden; /* ✅ 전체 스크롤 제거 */
+  overflow: hidden;
 }
 
 * {
-  -ms-overflow-style: none; /* IE/Edge */
-  scrollbar-width: none;    /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 *::-webkit-scrollbar {
-  display: none;            /* Chrome/Safari/Opera */
+  display: none;
 }
 
 .index-container {
@@ -60,6 +60,43 @@ body {
   font-size: 0.9rem;
   color: #555;
   margin: 0;
+}
+
+/* ✅ 카테고리 필터 버튼 영역 추가 */
+.category-filter-section {
+  text-align: center;
+  margin-top: -1rem;
+}
+
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.category-btn {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  background-color: rgba(163, 76, 29, 0.08);
+  color: #3d2b1f;
+  border: 1px solid #e0d8c0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.category-btn:hover {
+  background-color: rgba(163, 76, 29, 0.18);
+  color: #a34c1d;
+}
+
+.category-btn.active {
+  background-color: #a34c1d;
+  color: #fff;
+  border-color: #a34c1d;
 }
 
 .post-section {
